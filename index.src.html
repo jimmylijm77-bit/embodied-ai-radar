@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>具身智能研究雷达 · VLA / 世界模型 / WAM / VLN</title>
+  <meta name="description" content="按时间倒序速览最新 VLA、世界模型、World Action Model、VLN 工作：创新点、方法、项目状态、证据等级与趋势研判。" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="hero" id="top">
+    <div class="hero-inner">
+      <div class="eyebrow">JIMMY_CC · 具身智能技术情报</div>
+      <h1>具身智能研究雷达</h1>
+      <p class="hero-subtitle">按时间倒序速览最新工作——VLA、世界模型、WAM、VLN。每个方向只留最近、最有价值的 Top 10，标注年月日，给出创新点、方法、项目状态与证据等级。</p>
+      <div class="hero-meta" id="hero-meta"></div>
+      <div class="hero-actions">
+        <a class="button primary" href="#radar">查看最新雷达</a>
+        <a class="button" href="#methods">方法地图</a>
+        <a class="button" href="#trends">趋势研判</a>
+      </div>
+    </div>
+  </header>
+
+  <nav class="top-nav" aria-label="页面导航">
+    <div class="top-nav-inner">
+      <a href="#brief">核心判断</a>
+      <a href="#radar">最新雷达</a>
+      <a href="#methods">方法地图</a>
+      <a href="#tracker">项目状态</a>
+      <a href="#trends">趋势研判</a>
+      <a href="#matrix">路线对比</a>
+      <a href="#workflow">更新机制</a>
+      <a href="#sources">来源说明</a>
+    </div>
+  </nav>
+
+  <main class="container">
+    <section id="brief" class="section">
+      <div class="section-heading">
+        <p class="section-kicker">核心判断</p>
+        <h2>先看<span id="brief-count"></span>条结论，再看细节</h2>
+        <p class="section-lead">这是判断系统，不是论文收藏夹——决定我们把注意力放在哪里。</p>
+      </div>
+      <div class="brief-grid" id="brief-grid"></div>
+    </section>
+
+    <section id="radar" class="section">
+      <div class="section-heading with-action">
+        <div>
+          <p class="section-kicker">最新雷达</p>
+          <h2>按时间倒序的最新工作</h2>
+          <p class="section-lead">点击任意一行展开创新点、方法与证据。默认最新在前。</p>
+        </div>
+        <div class="count-pill"><span id="visible-count">0</span> / <span id="total-count">0</span></div>
+      </div>
+      <div class="toolbar">
+        <label class="search-box">
+          <input id="search-input" type="search" placeholder="🔍  搜索标题 / 方法 / 创新点 / 标签…" />
+        </label>
+        <div class="filter-group" aria-label="方向筛选">
+          <button class="filter-chip active" data-track="All">全部</button>
+          <button class="filter-chip" data-track="VLA">VLA</button>
+          <button class="filter-chip" data-track="World Model">世界模型</button>
+          <button class="filter-chip" data-track="WAM">WAM</button>
+          <button class="filter-chip" data-track="VLN">VLN</button>
+        </div>
+      </div>
+      <div class="radar-table" id="radar-table" role="table" aria-label="最新工作列表">
+        <div class="radar-head" role="row">
+          <span role="columnheader">日期</span>
+          <span role="columnheader">工作</span>
+          <span role="columnheader">方向</span>
+          <span role="columnheader">一句话</span>
+          <span role="columnheader">状态</span>
+        </div>
+        <div id="radar-rows"></div>
+      </div>
+      <p class="note">说明：日期优先取 arXiv 提交时间；标「估」者为推断。Benchmark 数字默认视为作者自报，除非证据栏标明独立复现。</p>
+    </section>
+
+    <section id="methods" class="section">
+      <div class="section-heading">
+        <p class="section-kicker">方法视角</p>
+        <h2>方法地图</h2>
+        <p class="section-lead">把分散的论文归到可迁移的方法家族，更适合做技术决策。</p>
+      </div>
+      <div class="method-grid" id="method-grid"></div>
+    </section>
+
+    <section id="tracker" class="section">
+      <div class="section-heading">
+        <p class="section-kicker">工程可用性</p>
+        <h2>项目状态：代码 / 权重 / 数据 / Benchmark</h2>
+        <p class="section-lead">论文好不好是一回事，能不能跑起来是另一回事。</p>
+      </div>
+      <div class="table-wrap">
+        <table class="status-table">
+          <thead>
+            <tr><th>工作</th><th>方向</th><th>论文</th><th>代码</th><th>权重</th><th>数据</th><th>Benchmark</th><th>证据等级</th></tr>
+          </thead>
+          <tbody id="tracker-body"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="trends" class="section">
+      <div class="section-heading">
+        <p class="section-kicker">趋势研判</p>
+        <h2>每条趋势都绑定证据和风险</h2>
+        <p class="section-lead">避免把营销话术当成既定事实。</p>
+      </div>
+      <div class="trend-grid" id="trend-grid"></div>
+    </section>
+
+    <section id="matrix" class="section">
+      <div class="section-heading">
+        <p class="section-kicker">横向对比</p>
+        <h2>六条技术路线一览</h2>
+        <p class="section-lead">输入、预测目标、优劣势与最佳用途一眼看清。</p>
+      </div>
+      <div class="table-wrap">
+        <table class="matrix-table">
+          <thead>
+            <tr><th>路线</th><th>输入</th><th>预测</th><th>优势</th><th>短板</th><th>最佳用途</th><th>代表工作</th></tr>
+          </thead>
+          <tbody id="matrix-body"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="workflow" class="section split-section">
+      <div>
+        <div class="section-heading compact">
+          <p class="section-kicker">更新机制</p>
+          <h2>如何让这个雷达持续保鲜</h2>
+        </div>
+        <ol class="workflow-list">
+          <li><strong>自动采集</strong><span>arXiv 每日、GitHub 状态、Hugging Face、项目页、实验室/公司博客；X/Twitter 仅作线索发现，证据等级最低。</span></li>
+          <li><strong>AI 结构化</strong><span>抽取问题、核心思路、创新点、方法、数据、benchmark、代码状态与证据。</span></li>
+          <li><strong>人工编辑</strong><span>只补高价值字段：真正创新点、与前作差异、CTO 判断、是否值得跟、可信度修正。</span></li>
+          <li><strong>反证验证</strong><span>性能数字、代码状态、benchmark 发布必须多源确认，否则标为「作者自报」。</span></li>
+        </ol>
+      </div>
+      <aside class="schema-card">
+        <p class="section-kicker">数据结构核心</p>
+        <pre><code>Work {
+  title, date, domains,
+  methodFamily, innovationPoints,
+  worldModel.role, actionInterface,
+  projectStatus, evidenceLevel,
+  ctoTake, lastVerifiedAt
+}</code></pre>
+      </aside>
+    </section>
+
+    <section id="sources" class="section sources-section">
+      <div class="section-heading">
+        <p class="section-kicker">来源与方法</p>
+        <h2>可信度说明</h2>
+        <p class="section-lead">最新论文多为预印本与项目页，适合判断方向，不等于独立复现实验。</p>
+      </div>
+      <div class="source-copy">
+        <p>本页综合了对原始网站的逆向分析、世界模型综述笔记，以及对最新 VLA / WAM / 具身世界模型的深度调研。最新论文大多是 arXiv 预印本与作者项目页，适合判断技术趋势与方法结构，但不等同于独立复现实验。</p>
+        <p><strong>证据阶梯：</strong>A = 论文 + 代码 + benchmark + 独立复现；B = 论文 + 代码/项目页；C = 仅论文/项目页；D = 仅 X/博客；E = 仅二手摘要。</p>
+      </div>
+      <div class="source-grid" id="source-grid"></div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <span>具身智能研究雷达 · 为 Jimmy_CC 生成</span>
+    <a href="#top">回到顶部 ↑</a>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
