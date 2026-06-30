@@ -1,0 +1,1219 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>具身智能研究雷达 · VLA / 世界模型 / WAM / VLN</title>
+  <meta name="description" content="按时间倒序速览最新 VLA、世界模型、World Action Model、VLN 工作：创新点、方法、项目状态、证据等级与趋势研判。" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+:root {
+  /* OKLCH warm-tinted neutrals — never pure gray/black */
+  --bg: oklch(0.985 0.004 95);
+  --bg-sunk: oklch(0.965 0.006 95);
+  --surface: oklch(1 0 0);
+  --ink: oklch(0.22 0.02 270);
+  --ink-soft: oklch(0.42 0.02 270);
+  --muted: oklch(0.58 0.015 270);
+  --line: oklch(0.92 0.006 270);
+  --line-strong: oklch(0.86 0.01 270);
+
+  --vla: oklch(0.55 0.18 275);
+  --vla-soft: oklch(0.96 0.03 275);
+  --wm: oklch(0.55 0.12 220);
+  --wm-soft: oklch(0.96 0.03 220);
+  --wam: oklch(0.55 0.18 320);
+  --wam-soft: oklch(0.96 0.03 320);
+  --vln: oklch(0.55 0.13 160);
+  --vln-soft: oklch(0.96 0.04 160);
+  --amber: oklch(0.62 0.13 70);
+  --amber-soft: oklch(0.96 0.04 75);
+  --red: oklch(0.58 0.18 22);
+  --red-soft: oklch(0.96 0.03 22);
+  --green: oklch(0.6 0.14 150);
+  --green-soft: oklch(0.95 0.04 150);
+
+  --shadow-sm: 0 1px 2px oklch(0.4 0.02 270 / 0.05), 0 1px 1px oklch(0.4 0.02 270 / 0.04);
+  --shadow-md: 0 4px 14px oklch(0.4 0.02 270 / 0.07), 0 1px 4px oklch(0.4 0.02 270 / 0.05);
+  --shadow-lg: 0 16px 38px oklch(0.4 0.02 270 / 0.12);
+
+  --r-sm: 8px;
+  --r: 12px;
+  --r-lg: 18px;
+  --max: 1080px;
+
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --t-fast: 140ms var(--ease);
+  --t: 220ms var(--ease);
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  color: var(--ink);
+  background: var(--bg);
+  font-family: "DM Sans", ui-sans-serif, system-ui, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+  font-size: 15px;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+a { color: inherit; }
+h1, h2, h3, .eyebrow, .section-kicker { font-family: "Sora", "DM Sans", sans-serif; }
+.mono, .work-date, code, .radar-date { font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace; }
+
+@media (prefers-reduced-motion: reduce) {
+  * { animation: none !important; transition: none !important; }
+  html { scroll-behavior: auto; }
+}
+
+/* ---------- Hero ---------- */
+.hero {
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(820px 320px at 82% -8%, var(--vla-soft), transparent 72%),
+    radial-gradient(620px 280px at 4% 4%, var(--wm-soft), transparent 70%),
+    linear-gradient(180deg, var(--surface), var(--bg));
+  border-bottom: 1px solid var(--line);
+}
+.hero-inner { max-width: var(--max); margin: 0 auto; padding: 72px 32px 56px; }
+.eyebrow, .section-kicker {
+  display: inline-block;
+  color: var(--vla);
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-size: 0.7rem;
+  font-weight: 700;
+  margin: 0 0 16px;
+}
+h1 {
+  margin: 0;
+  font-size: clamp(2.1rem, 4.6vw, 3.3rem);
+  line-height: 1.08;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+}
+.hero-subtitle { max-width: 620px; margin: 18px 0 0; color: var(--ink-soft); font-size: clamp(0.98rem, 1.4vw, 1.1rem); }
+.hero-meta, .hero-actions, .filter-group { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+.hero-meta { margin-top: 28px; }
+.meta-chip {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: var(--surface); border: 1px solid var(--line);
+  color: var(--ink-soft); border-radius: 999px;
+  padding: 6px 13px; font-size: 0.8rem; font-weight: 500;
+  box-shadow: var(--shadow-sm);
+}
+.hero-actions { margin-top: 30px; }
+.button {
+  display: inline-flex; align-items: center; justify-content: center;
+  text-decoration: none; border: 1px solid var(--line-strong);
+  color: var(--ink); background: var(--surface);
+  border-radius: var(--r-sm); padding: 11px 19px;
+  font-size: 0.92rem; font-weight: 600;
+  transition: transform var(--t-fast), box-shadow var(--t-fast), border-color var(--t-fast);
+  box-shadow: var(--shadow-sm);
+}
+.button:hover { transform: translateY(-1px); box-shadow: var(--shadow-md); }
+.button:focus-visible { outline: 2px solid var(--vla); outline-offset: 2px; }
+.button.primary { background: var(--vla); color: oklch(0.99 0 0); border-color: transparent; }
+.button.primary:hover { box-shadow: 0 10px 24px var(--vla-soft); }
+
+/* ---------- Sticky nav ---------- */
+.top-nav {
+  position: sticky; top: 0; z-index: 50;
+  background: oklch(1 0 0 / 0.82);
+  backdrop-filter: saturate(180%) blur(14px);
+  border-bottom: 1px solid var(--line);
+}
+.top-nav-inner {
+  max-width: var(--max); margin: 0 auto;
+  display: flex; gap: 2px; overflow-x: auto; padding: 0 20px;
+}
+.top-nav a {
+  flex: 0 0 auto; color: var(--muted); text-decoration: none;
+  font-size: 0.88rem; font-weight: 600; padding: 14px 14px;
+  border-bottom: 2px solid transparent; transition: color var(--t-fast), border-color var(--t-fast);
+}
+.top-nav a:hover { color: var(--vla); border-color: var(--vla); }
+
+/* ---------- Layout ---------- */
+.container { max-width: var(--max); margin: 0 auto; padding: 56px 32px 32px; }
+.section { margin: 0 0 80px; scroll-margin-top: 64px; }
+.section-heading { margin-bottom: 28px; }
+.section-heading.with-action { display: flex; align-items: flex-end; justify-content: space-between; gap: 20px; }
+.section h2 { margin: 0; font-size: clamp(1.35rem, 2.4vw, 1.8rem); font-weight: 700; letter-spacing: -0.01em; color: var(--ink); }
+.section-lead { margin: 8px 0 0; color: var(--muted); font-size: 0.95rem; max-width: 600px; }
+.count-pill { flex: 0 0 auto; background: var(--vla-soft); color: var(--vla); border-radius: 999px; padding: 7px 15px; font-weight: 700; font-size: 0.85rem; white-space: nowrap; }
+
+/* ---------- Brief cards ---------- */
+.brief-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+.brief-card {
+  background: var(--surface); border: 1px solid var(--line);
+  border-radius: var(--r); padding: 22px;
+  box-shadow: var(--shadow-sm); transition: transform var(--t-fast), box-shadow var(--t-fast);
+}
+.brief-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+.brief-icon { width: 40px; height: 40px; display: grid; place-items: center; border-radius: 10px; font-size: 1.3rem; background: var(--vla-soft); margin-bottom: 14px; }
+.brief-card h3 { margin: 0 0 8px; font-size: 1.02rem; font-weight: 700; color: var(--ink); line-height: 1.35; }
+.brief-card p { margin: 0; color: var(--ink-soft); font-size: 0.9rem; }
+.cto-take, .risk-box {
+  margin-top: 14px; color: var(--ink-soft); background: var(--bg-sunk);
+  border-radius: var(--r-sm); padding: 10px 13px; font-size: 0.85rem;
+  border-left: 3px solid var(--vla);
+}
+.cto-take strong { color: var(--vla); }
+.risk-box { border-left-color: var(--amber); background: var(--amber-soft); }
+.risk-box strong { color: var(--amber); }
+
+/* ---------- Toolbar ---------- */
+.toolbar { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 18px; flex-wrap: wrap; }
+.search-box { flex: 1 1 300px; min-width: 240px; }
+.search-box input {
+  width: 100%; border: 1px solid var(--line-strong); border-radius: var(--r-sm);
+  background: var(--surface); color: var(--ink); padding: 11px 15px; outline: none;
+  font-size: 0.95rem; font-family: inherit; box-shadow: var(--shadow-sm);
+  transition: border-color var(--t-fast), box-shadow var(--t-fast);
+}
+.search-box input:focus { border-color: var(--vla); box-shadow: 0 0 0 3px var(--vla-soft); }
+.filter-chip {
+  cursor: pointer; border: 1px solid var(--line-strong); color: var(--ink-soft);
+  background: var(--surface); border-radius: 999px; padding: 8px 15px;
+  font-weight: 600; font-size: 0.88rem; font-family: inherit; transition: all var(--t-fast);
+}
+.filter-chip:hover { border-color: var(--vla); color: var(--vla); }
+.filter-chip.active { color: oklch(0.99 0 0); border-color: transparent; background: var(--vla); }
+.filter-chip:focus-visible { outline: 2px solid var(--vla); outline-offset: 2px; }
+
+/* ---------- Radar table (compact, dated, expandable) ---------- */
+.radar-table {
+  border: 1px solid var(--line); border-radius: var(--r);
+  background: var(--surface); box-shadow: var(--shadow-sm); overflow: hidden;
+}
+.radar-head, .radar-row {
+  display: grid;
+  grid-template-columns: 104px 1.4fr 130px 2.2fr 96px;
+  align-items: center; gap: 14px;
+}
+.radar-head {
+  padding: 12px 20px; background: var(--bg-sunk);
+  border-bottom: 1px solid var(--line);
+  font-size: 0.72rem; font-weight: 700; letter-spacing: 0.05em;
+  text-transform: uppercase; color: var(--muted);
+}
+.radar-row {
+  padding: 14px 20px; border-bottom: 1px solid var(--line);
+  cursor: pointer; transition: background var(--t-fast);
+  font-size: 0.9rem;
+}
+.radar-row:last-of-type { border-bottom: 0; }
+.radar-row:hover { background: var(--bg-sunk); }
+.radar-row[aria-expanded="true"] { background: var(--vla-soft); }
+.radar-date { font-size: 0.8rem; color: var(--ink-soft); white-space: nowrap; }
+.radar-date .est { color: var(--amber); font-size: 0.72rem; }
+.radar-title { font-weight: 700; color: var(--ink); display: flex; align-items: center; gap: 8px; }
+.radar-title .chev { color: var(--muted); font-size: 0.7rem; transition: transform var(--t-fast); }
+.radar-row[aria-expanded="true"] .chev { transform: rotate(90deg); }
+.radar-oneliner { color: var(--ink-soft); overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; font-size: 0.86rem; }
+.radar-track-cell { display: flex; flex-wrap: wrap; gap: 5px; }
+.radar-status-cell { display: flex; justify-content: flex-end; }
+.radar-detail {
+  grid-column: 1 / -1; padding: 0; max-height: 0; overflow: hidden;
+  transition: max-height var(--t);
+}
+.radar-detail-inner { padding: 4px 20px 22px 120px; display: grid; gap: 16px; }
+.radar-row[aria-expanded="true"] + .radar-detail { max-height: 720px; }
+.detail-block .label { color: var(--muted); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.08em; font-weight: 700; margin-bottom: 6px; }
+.detail-block .innovation-list { margin: 0; padding-left: 18px; color: var(--ink-soft); font-size: 0.88rem; }
+.detail-block .innovation-list li { margin-bottom: 3px; }
+.detail-block .method-copy { margin: 0; color: var(--ink-soft); font-size: 0.88rem; }
+.detail-links { display: flex; flex-wrap: wrap; gap: 14px; }
+.detail-links a { color: var(--vla); font-size: 0.82rem; text-decoration: none; font-weight: 600; }
+.detail-links a:hover { text-decoration: underline; }
+.empty-row { padding: 28px 20px; text-align: center; color: var(--muted); font-size: 0.92rem; }
+
+/* ---------- Tags & pills ---------- */
+.tag { display: inline-flex; align-items: center; border-radius: 6px; padding: 2px 8px; font-size: 0.72rem; font-weight: 600; }
+.tag.vla { color: var(--vla); background: var(--vla-soft); }
+.tag.world-model { color: var(--wm); background: var(--wm-soft); }
+.tag.wam { color: var(--wam); background: var(--wam-soft); }
+.tag.vln { color: var(--vln); background: var(--vln-soft); }
+.tag.status { color: var(--amber); background: var(--amber-soft); }
+.status-pill { display: inline-flex; border-radius: 6px; padding: 3px 9px; font-size: 0.72rem; font-weight: 600; }
+.status-good { color: var(--green); background: var(--green-soft); }
+.status-warn { color: var(--amber); background: var(--amber-soft); }
+.status-bad { color: var(--red); background: var(--red-soft); }
+.status-neutral { color: var(--muted); background: var(--bg-sunk); }
+.note { color: var(--muted); font-size: 0.85rem; margin: 18px 0 0; }
+
+/* ---------- Method cards ---------- */
+.method-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+.method-card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 22px; border-top: 3px solid var(--vla); box-shadow: var(--shadow-sm); }
+.method-card[data-track="World Model"] { border-top-color: var(--wm); }
+.method-card[data-track="WAM"] { border-top-color: var(--wam); }
+.method-card[data-track="VLN"] { border-top-color: var(--vln); }
+.method-card h3 { margin: 6px 0 8px; font-size: 1.02rem; font-weight: 700; color: var(--ink); }
+.method-card p { margin: 0; color: var(--ink-soft); font-size: 0.9rem; }
+.examples { margin-top: 12px; color: var(--muted); font-size: 0.83rem; }
+
+/* ---------- Tables ---------- */
+.table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: var(--r); background: var(--surface); box-shadow: var(--shadow-sm); }
+table { width: 100%; border-collapse: collapse; min-width: 820px; }
+th { text-align: left; color: var(--muted); font-size: 0.72rem; letter-spacing: 0.05em; text-transform: uppercase; background: var(--bg-sunk); padding: 13px 16px; border-bottom: 1px solid var(--line); font-weight: 700; font-family: "Sora", sans-serif; }
+td { padding: 14px 16px; border-bottom: 1px solid var(--line); color: var(--ink-soft); font-size: 0.88rem; vertical-align: top; }
+tbody tr:last-child td { border-bottom: 0; }
+tbody tr:hover td { background: var(--bg-sunk); }
+.work-name { color: var(--ink); font-weight: 700; }
+
+/* ---------- Trends ---------- */
+.trend-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.trend-card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 24px; box-shadow: var(--shadow-sm); }
+.trend-card h3 { margin: 12px 0 8px; font-size: 1.08rem; font-weight: 700; color: var(--ink); }
+.trend-card p { margin: 0; color: var(--ink-soft); font-size: 0.9rem; }
+.trend-meta { display: flex; gap: 8px; flex-wrap: wrap; }
+.evidence-line { margin-top: 14px; color: var(--ink-soft); font-size: 0.85rem; }
+.evidence-line strong { color: var(--ink); }
+
+/* ---------- Workflow ---------- */
+.split-section { display: grid; grid-template-columns: 1.4fr 0.8fr; gap: 22px; align-items: start; }
+.section-heading.compact { margin-bottom: 22px; }
+.workflow-list { display: grid; gap: 12px; margin: 0; padding: 0; list-style: none; counter-reset: step; }
+.workflow-list li { display: grid; gap: 3px; padding: 18px 18px 18px 52px; position: relative; border: 1px solid var(--line); border-radius: var(--r-sm); background: var(--surface); box-shadow: var(--shadow-sm); }
+.workflow-list li::before { counter-increment: step; content: counter(step); position: absolute; left: 16px; top: 18px; width: 24px; height: 24px; display: grid; place-items: center; border-radius: 7px; background: var(--vla); color: oklch(0.99 0 0); font-weight: 700; font-size: 0.8rem; font-family: "Sora", sans-serif; }
+.workflow-list strong { color: var(--ink); font-size: 0.96rem; }
+.workflow-list span { color: var(--ink-soft); font-size: 0.88rem; }
+.schema-card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 22px; box-shadow: var(--shadow-sm); }
+.schema-card pre { margin: 12px 0 0; overflow-x: auto; background: oklch(0.21 0.02 270); border-radius: var(--r-sm); padding: 16px; }
+.schema-card code { font-size: 0.8rem; color: oklch(0.86 0.04 250); line-height: 1.75; }
+
+/* ---------- Sources ---------- */
+.source-copy { padding: 22px; border: 1px solid var(--line); border-radius: var(--r); background: var(--surface); box-shadow: var(--shadow-sm); margin-bottom: 16px; }
+.source-copy p { margin: 0; color: var(--ink-soft); font-size: 0.92rem; }
+.source-copy p + p { margin-top: 10px; }
+.source-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.source-card { display: block; text-decoration: none; color: var(--muted); font-size: 0.82rem; padding: 13px 16px; border: 1px solid var(--line); border-radius: var(--r-sm); background: var(--surface); word-break: break-word; font-family: "JetBrains Mono", monospace; transition: border-color var(--t-fast), color var(--t-fast); }
+.source-card:hover { color: var(--vla); border-color: var(--vla); }
+
+/* ---------- Footer ---------- */
+.footer { border-top: 1px solid var(--line); background: var(--surface); color: var(--muted); display: flex; justify-content: space-between; gap: 16px; padding: 24px max(32px, calc((100vw - var(--max)) / 2 + 32px)); font-size: 0.86rem; }
+.footer a { color: var(--vla); text-decoration: none; font-weight: 600; }
+
+/* ---------- Responsive ---------- */
+@media (max-width: 940px) {
+  .brief-grid, .method-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .radar-head, .radar-row { grid-template-columns: 88px 1.3fr 1.8fr 84px; }
+  .radar-head span:nth-child(3), .radar-row .radar-track-cell { display: none; }
+  .radar-detail-inner { padding-left: 20px; }
+}
+@media (max-width: 680px) {
+  .hero-inner { padding: 52px 20px 40px; }
+  .container { padding: 40px 20px 28px; }
+  .section { margin-bottom: 60px; }
+  .brief-grid, .method-grid, .trend-grid, .source-grid, .split-section { grid-template-columns: 1fr; }
+  .toolbar { flex-direction: column; align-items: stretch; }
+  .section-heading.with-action { flex-direction: column; align-items: flex-start; }
+  .radar-head { display: none; }
+  .radar-row { grid-template-columns: 1fr; gap: 6px; padding: 14px 16px; }
+  .radar-oneliner { -webkit-line-clamp: 3; }
+  .radar-status-cell { justify-content: flex-start; }
+  .footer { flex-direction: column; }
+}
+
+  </style>
+</head>
+<body>
+  <header class="hero" id="top">
+    <div class="hero-inner">
+      <div class="eyebrow">JIMMY_CC · 具身智能技术情报</div>
+      <h1>具身智能研究雷达</h1>
+      <p class="hero-subtitle">按时间倒序速览最新工作——VLA、世界模型、WAM、VLN。每个方向只留最近、最有价值的 Top 10，标注年月日，给出创新点、方法、项目状态与证据等级。</p>
+      <div class="hero-meta" id="hero-meta"></div>
+      <div class="hero-actions">
+        <a class="button primary" href="#radar">查看最新雷达</a>
+        <a class="button" href="#methods">方法地图</a>
+        <a class="button" href="#trends">趋势研判</a>
+      </div>
+    </div>
+  </header>
+
+  <nav class="top-nav" aria-label="页面导航">
+    <div class="top-nav-inner">
+      <a href="#brief">核心判断</a>
+      <a href="#radar">最新雷达</a>
+      <a href="#methods">方法地图</a>
+      <a href="#tracker">项目状态</a>
+      <a href="#trends">趋势研判</a>
+      <a href="#matrix">路线对比</a>
+      <a href="#workflow">更新机制</a>
+      <a href="#sources">来源说明</a>
+    </div>
+  </nav>
+
+  <main class="container">
+    <section id="brief" class="section">
+      <div class="section-heading">
+        <p class="section-kicker">核心判断</p>
+        <h2>先看五条结论，再看细节</h2>
+        <p class="section-lead">这是判断系统，不是论文收藏夹——决定我们把注意力放在哪里。</p>
+      </div>
+      <div class="brief-grid" id="brief-grid"></div>
+    </section>
+
+    <section id="radar" class="section">
+      <div class="section-heading with-action">
+        <div>
+          <p class="section-kicker">最新雷达</p>
+          <h2>按时间倒序的最新工作</h2>
+          <p class="section-lead">点击任意一行展开创新点、方法与证据。默认最新在前。</p>
+        </div>
+        <div class="count-pill"><span id="visible-count">0</span> / <span id="total-count">0</span></div>
+      </div>
+      <div class="toolbar">
+        <label class="search-box">
+          <input id="search-input" type="search" placeholder="🔍  搜索标题 / 方法 / 创新点 / 标签…" />
+        </label>
+        <div class="filter-group" aria-label="方向筛选">
+          <button class="filter-chip active" data-track="All">全部</button>
+          <button class="filter-chip" data-track="VLA">VLA</button>
+          <button class="filter-chip" data-track="World Model">世界模型</button>
+          <button class="filter-chip" data-track="WAM">WAM</button>
+          <button class="filter-chip" data-track="VLN">VLN</button>
+        </div>
+      </div>
+      <div class="radar-table" id="radar-table" role="table" aria-label="最新工作列表">
+        <div class="radar-head" role="row">
+          <span role="columnheader">日期</span>
+          <span role="columnheader">工作</span>
+          <span role="columnheader">方向</span>
+          <span role="columnheader">一句话</span>
+          <span role="columnheader">状态</span>
+        </div>
+        <div id="radar-rows"></div>
+      </div>
+      <p class="note">说明：日期优先取 arXiv 提交时间；标「估」者为推断。Benchmark 数字默认视为作者自报，除非证据栏标明独立复现。</p>
+    </section>
+
+    <section id="methods" class="section">
+      <div class="section-heading">
+        <p class="section-kicker">方法视角</p>
+        <h2>方法地图</h2>
+        <p class="section-lead">把分散的论文归到可迁移的方法家族，更适合做技术决策。</p>
+      </div>
+      <div class="method-grid" id="method-grid"></div>
+    </section>
+
+    <section id="tracker" class="section">
+      <div class="section-heading">
+        <p class="section-kicker">工程可用性</p>
+        <h2>项目状态：代码 / 权重 / 数据 / Benchmark</h2>
+        <p class="section-lead">论文好不好是一回事，能不能跑起来是另一回事。</p>
+      </div>
+      <div class="table-wrap">
+        <table class="status-table">
+          <thead>
+            <tr><th>工作</th><th>方向</th><th>论文</th><th>代码</th><th>权重</th><th>数据</th><th>Benchmark</th><th>证据等级</th></tr>
+          </thead>
+          <tbody id="tracker-body"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="trends" class="section">
+      <div class="section-heading">
+        <p class="section-kicker">趋势研判</p>
+        <h2>每条趋势都绑定证据和风险</h2>
+        <p class="section-lead">避免把营销话术当成既定事实。</p>
+      </div>
+      <div class="trend-grid" id="trend-grid"></div>
+    </section>
+
+    <section id="matrix" class="section">
+      <div class="section-heading">
+        <p class="section-kicker">横向对比</p>
+        <h2>六条技术路线一览</h2>
+        <p class="section-lead">输入、预测目标、优劣势与最佳用途一眼看清。</p>
+      </div>
+      <div class="table-wrap">
+        <table class="matrix-table">
+          <thead>
+            <tr><th>路线</th><th>输入</th><th>预测</th><th>优势</th><th>短板</th><th>最佳用途</th><th>代表工作</th></tr>
+          </thead>
+          <tbody id="matrix-body"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="workflow" class="section split-section">
+      <div>
+        <div class="section-heading compact">
+          <p class="section-kicker">更新机制</p>
+          <h2>如何让这个雷达持续保鲜</h2>
+        </div>
+        <ol class="workflow-list">
+          <li><strong>自动采集</strong><span>arXiv 每日、GitHub 状态、Hugging Face、项目页、实验室/公司博客；X/Twitter 仅作线索发现，证据等级最低。</span></li>
+          <li><strong>AI 结构化</strong><span>抽取问题、核心思路、创新点、方法、数据、benchmark、代码状态与证据。</span></li>
+          <li><strong>人工编辑</strong><span>只补高价值字段：真正创新点、与前作差异、CTO 判断、是否值得跟、可信度修正。</span></li>
+          <li><strong>反证验证</strong><span>性能数字、代码状态、benchmark 发布必须多源确认，否则标为「作者自报」。</span></li>
+        </ol>
+      </div>
+      <aside class="schema-card">
+        <p class="section-kicker">数据结构核心</p>
+        <pre><code>Work {
+  title, date, domains,
+  methodFamily, innovationPoints,
+  worldModel.role, actionInterface,
+  projectStatus, evidenceLevel,
+  ctoTake, lastVerifiedAt
+}</code></pre>
+      </aside>
+    </section>
+
+    <section id="sources" class="section sources-section">
+      <div class="section-heading">
+        <p class="section-kicker">来源与方法</p>
+        <h2>可信度说明</h2>
+        <p class="section-lead">最新论文多为预印本与项目页，适合判断方向，不等于独立复现实验。</p>
+      </div>
+      <div class="source-copy">
+        <p>本页综合了对原始网站的逆向分析、世界模型综述笔记，以及对最新 VLA / WAM / 具身世界模型的深度调研。最新论文大多是 arXiv 预印本与作者项目页，适合判断技术趋势与方法结构，但不等同于独立复现实验。</p>
+        <p><strong>证据阶梯：</strong>A = 论文 + 代码 + benchmark + 独立复现；B = 论文 + 代码/项目页；C = 仅论文/项目页；D = 仅 X/博客；E = 仅二手摘要。</p>
+      </div>
+      <div class="source-grid" id="source-grid"></div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <span>具身智能研究雷达 · 为 Jimmy_CC 生成</span>
+    <a href="#top">回到顶部 ↑</a>
+  </footer>
+
+  <script>
+window.__RADAR_DATA__ = {
+  "meta": {
+    "title": "Embodied AI Radar",
+    "subtitle": "VLA · World Model · WAM · VLN Research Intelligence",
+    "updated": "2026-06-30（今日更新）",
+    "coverage": "聚焦 2026 年最新工作（近 6 周为主），每方向 Top 8–12",
+    "tracks": ["VLA", "World Model", "WAM", "VLN"],
+    "stance": "不是论文收藏夹，而是 CTO 判断系统：看创新点、方法思路、项目状态、证据可信度与趋势变化。"
+  },
+  "briefs": [
+    {
+      "title": "WAM 已从概念变成活跃主线",
+      "icon": "🧠",
+      "body": "2026 年 5–6 月密集出现 WAM 专项工作（MV-WAM、LaWAM、WAM4D、RepWAM、ImageWAM、REGEN），并有首篇 WAM 综述（2605.12090）做形式化定义：联合建模未来状态与动作。",
+      "take": "把 world_model_role 设为一级字段；WAM 不再是 WM 的子标签，而是独立范式。"
+    },
+    {
+      "title": "WAM 正在「去视频化」",
+      "icon": "⚡",
+      "body": "ImageWAM 用图像编辑替代视频预测，算力降到 1/6、延迟降到 1/4；LaWAM 用潜变量子目标替代像素重建，延迟降低 24 倍。效率优先方向明确。",
+      "take": "要落地实时机器人，优先看 latent / image-edit 路线，而不是大视频生成。"
+    },
+    {
+      "title": "VLN 正与 WAM 融合",
+      "icon": "🧭",
+      "body": "FutureNav 把世界-动作联合建模引入 VLN；WorldVLN 做航拍自回归 WAM；OneVLA/Qwen-VLA 用单模型统一导航+操控。VLN 从反应式动作转向显式状态预测。",
+      "take": "VLN 不再是独立孤岛，应与 WAM/VLA 放在同一张雷达上比较。"
+    },
+    {
+      "title": "跨本体统一模型成热潮",
+      "icon": "🤖",
+      "body": "Qwen 系（Qwen-VLA / Qwen-RobotWorld / Qwen-RobotNav）形成统一生态；ZR-0、VLK、OneVLA 都以「单模型覆盖多本体/多任务」为核心卖点。",
+      "take": "大规模统一训练路线在成熟，但要分清是真泛化还是堆数据。"
+    },
+    {
+      "title": "评估战场转向物理一致性",
+      "icon": "🧪",
+      "body": "PhysisForcing、A2World、SC3-Eval、World Value Models、反事实可控性等集中攻物理可信度与闭环可用，而不只是视觉好看。多数仍是作者自报，需独立复现。",
+      "take": "可信度仍是护城河：benchmark 数字默认标注 author-reported。"
+    },
+    {
+      "title": "世界模型幻觉研究成新方向",
+      "icon": "🔮",
+      "body": "Hallucination in World Models（2606.27326）指出幻觉集中于低覆盖状态-动作区域，提供可检测 + 可缓解的数据驱动方案；MemoBench 专攻动态遮挡场景下的记忆一致性缺口；ICWM 把「系统辨识」引入 VLA 的上下文适应。三类工作共同把「世界模型到底在幻觉哪里」变成可量化问题。",
+      "take": "幻觉检测工具链比幻觉本身更有生产价值——优先看检测/缓解方案是否开源。"
+    },
+    {
+      "title": "人类→机器人技能迁移找到低成本路径",
+      "icon": "🤲",
+      "body": "Translation as Bridging Action 用「头部相机帧内相对手腕平移」作跨形态公共空间，绕过 6DoF 姿态估计噪声；Learning to Fold 在 ICRA 2026 折叠比赛（62 支队伍）摘银，用「策略即价值函数」自监督 RL 改进 VLA。两项均未依赖昂贵遥操作硬件。",
+      "take": "人类视频→机器人策略的数据管线正在成熟，关注哪条路径最省标注成本。"
+    }
+  ],
+  "works": [
+    {
+      "id": "zr-0", "title": "ZR-0", "date": "2026-06-29",
+      "track": ["VLA"], "domain": "跨本体 VLA / 机器人基础模型", "status": "最新",
+      "oneLiner": "用密集具身思维链（ECoT）监督对齐跨本体表征，训练 2.6B 跨形态通用 VLA。",
+      "innovation": ["ProcCorpus-60M：ECoT 覆盖率 96.8% 的 6000 万帧预训练语料", "双流架构：预训练 VLM(System 2) + Diffusion Transformer 动作专家(System 1)", "单臂/双臂/人形/真实 xArm 四类平台验证"],
+      "method": "用 ECoT 标注的 6000 万帧视频预训练跨本体 VLA，推理时动作专家直接解码动作、跳过 LLM 路径以降时延。",
+      "ctoTake": "值得跟：跨本体 + 推理时跳过 System 2，是工程落地友好的方向。代码已提及公开。",
+      "projectStatus": { "paper": "已发布", "code": "已发布", "weights": "未知", "dataset": "部分发布", "benchmark": "作者自报" },
+      "evidenceLevel": "B 级：论文 + GitHub，结果作者自报", "links": ["https://arxiv.org/abs/2606.30552"]
+    },
+    {
+      "id": "vlk", "title": "VLK", "date": "2026-06-29",
+      "track": ["VLA"], "domain": "人形全身操控 VLA", "status": "最新",
+      "oneLiner": "用 3D Gaussian Splatting 合成 4.8 万条视觉-语言-运动学轨迹，无人工介入训练人形全身操控。",
+      "innovation": ["全自动数据管线：场景重建→特权轨迹→第一人称渲染", "预测短时域全身运动学，统一 loco-manipulation", "Unitree G1 真机导航+搬运验证"],
+      "method": "在 3DGS 重建场景中合成视觉-语言-运动学三元组并训练策略，绕过真实数据采集瓶颈。",
+      "ctoTake": "合成数据 + 全身控制是人形机器人现实路径；但合成数据未公开，需关注真实泛化。",
+      "projectStatus": { "paper": "已发布", "code": "未知", "weights": "未知", "dataset": "合成未公开", "benchmark": "作者自报" },
+      "evidenceLevel": "C 级：论文 + 真机验证，作者自报", "links": ["https://arxiv.org/abs/2606.30645"]
+    },
+    {
+      "id": "grow2", "title": "GROW²", "date": "2026-06-29",
+      "track": ["VLA"], "domain": "开放世界工具使用", "status": "最新",
+      "oneLiner": "把工具使用 affordance 分解为语义层(VLM 选物体) + 几何层(基础模型定位 3D)，实现零样本工具泛化。",
+      "innovation": ["层级 grounding 解耦语义理解与几何定位", "单张 RGB-D 即可输出 3D 工具接触点", "跨新物体类别零样本泛化"],
+      "method": "VLM 决定用哪个工具/哪个部位，视觉基础模型决定在哪里，两阶段串联。",
+      "ctoTake": "解耦思路降低端到端训练成本，适合工具类长尾任务。",
+      "projectStatus": { "paper": "已发布", "code": "未知", "weights": "未知", "dataset": "未知", "benchmark": "已报告" },
+      "evidenceLevel": "C 级：论文，作者自报", "links": ["https://arxiv.org/abs/2606.30632"]
+    },
+    {
+      "id": "spikevla", "title": "SpikeVLA", "date": "2026-06-26",
+      "track": ["VLA"], "domain": "神经形态低功耗 VLA", "status": "最新",
+      "oneLiner": "用脉冲神经网络(SNN)替换 VLA 骨干，实现低功耗边缘部署的导航与控制（ICML 2026）。",
+      "innovation": ["Spike-V/L/A 三模块全链路 SNN 化", "Laplacian-kernel population coding 生成稳定连续控制", "显著降能耗与延迟"],
+      "method": "将 VLA 的视觉编码器、语言模型、动作策略全部替换为事件驱动 SNN，实现神经形态高效推理。",
+      "ctoTake": "罕见的有同行评审(ICML 2026)；边缘/低功耗机器人值得关注。",
+      "projectStatus": { "paper": "已发布", "code": "未知", "weights": "未知", "dataset": "未知", "benchmark": "已报告" },
+      "evidenceLevel": "A- 级：ICML 2026 接收，有同行评审", "links": ["https://arxiv.org/abs/2606.27807"]
+    },
+    {
+      "id": "nac", "title": "NAC（Neural Action Codec）", "date": "2026-06-19",
+      "track": ["VLA"], "domain": "动作 tokenization", "status": "最新",
+      "oneLiner": "将神经音频编解码器(RVQ)原理迁移到动作离散化，获得更低重建误差的动作 token。",
+      "innovation": ["首次把 codec/RVQ 思路用于机器人动作 tokenization", "降低动作 token 重建误差", "可即插即用于现有 VLA"],
+      "method": "借鉴音频 Codec 的残差向量量化范式设计动作编码器，提升 VLA token 质量。",
+      "ctoTake": "动作表示是 VLA 的隐性瓶颈，codec 思路值得在自有数据上验证。",
+      "projectStatus": { "paper": "已发布", "code": "未知", "weights": "未知", "dataset": "未知", "benchmark": "已报告" },
+      "evidenceLevel": "C 级：论文，作者自报", "links": ["https://arxiv.org/abs/2606.21372"]
+    },
+    {
+      "id": "qwen-vla", "title": "Qwen-VLA", "date": "2026-06-01",
+      "track": ["VLA", "VLN"], "domain": "统一异构具身决策", "status": "最新",
+      "oneLiner": "单一 VLA 统一操控/导航/轨迹预测，LIBERO 97.9%、R2R 导航 69%。",
+      "innovation": ["DiT 动作解码器统一生成连续动作与导航路径点", "Embodiment-aware prompt conditioning 支持多形态", "操控+导航双 SOTA，强正迁移"],
+      "method": "以 Qwen 为骨干 + DiT 动作解码器，用异构机器人数据 + 自我中心视频混合训练统一具身策略。",
+      "ctoTake": "Qwen 具身生态核心之一，数字可查；适合作为统一模型基线观察。",
+      "projectStatus": { "paper": "已发布", "code": "计划发布", "weights": "部分发布", "dataset": "未知", "benchmark": "作者自报" },
+      "evidenceLevel": "B 级：大团队 + 可查基准，作者自报", "links": ["https://arxiv.org/abs/2605.30280"]
+    },
+    {
+      "id": "onevla", "title": "OneVLA", "date": "2026-06-02",
+      "track": ["VLA", "VLN"], "domain": "统一导航+操控 VLA", "status": "最新",
+      "oneLiner": "单一架构 + 统一动作头，同时处理导航与操控，两类任务产生强正迁移。",
+      "innovation": ["统一动作头生成导航路径点与操控动作，无需分支", "CoT 微调促进跨任务正迁移", "仿真+真实全面验证，优于单任务专项模型"],
+      "method": "渐进式训练 + CoT 微调，让单个 VLA 的导航与操控能力相互增强。",
+      "ctoTake": "统一模型路线代表作之一，重点看跨任务正迁移是否稳定。",
+      "projectStatus": { "paper": "已发布", "code": "计划发布", "weights": "计划发布", "dataset": "未知", "benchmark": "作者自报" },
+      "evidenceLevel": "C 级：论文，代码计划公开", "links": ["https://arxiv.org/abs/2606.01241"]
+    },
+    {
+      "id": "wall-oss", "title": "Wall-OSS-0.5", "date": "2026-05-31",
+      "track": ["VLA"], "domain": "VLA 预训练能力评估", "status": "最新",
+      "oneLiner": "证明 VLA 预训练本身即可产生非平凡零样本真机行为，无需任务特定微调。",
+      "innovation": ["预训练 VLA 可直接真机零样本迁移，挑战「预训练→微调」必要性", "开放技术报告建立可复现基线", "为评估预训练能力提供框架"],
+      "method": "大规模 VLA 预训练后不做微调，直接在真机测试，验证「预训练即能力」假说。",
+      "ctoTake": "如果成立，会改变 VLA 落地的成本结构；但需独立复现。",
+      "projectStatus": { "paper": "已发布", "code": "未知", "weights": "未知", "dataset": "未知", "benchmark": "作者自报" },
+      "evidenceLevel": "C 级：技术报告，作者自报", "links": ["https://arxiv.org/abs/2605.30877"]
+    },
+    {
+      "id": "expo-ft", "title": "EXPO-FT", "date": "2026-05-25",
+      "track": ["VLA"], "domain": "VLA 强化微调 / 样本效率", "status": "最新",
+      "oneLiner": "稳定 RL 微调框架，19 分钟在线数据实现 30/30 完美任务成功。",
+      "innovation": ["VLA 专项样本高效 RL 微调", "极少在线数据(19 分钟)即收敛", "稳定训练避免 RL 崩溃"],
+      "method": "设计专针对 VLA 的 RL 微调算法，以极少在线样本达成完美成功率。",
+      "ctoTake": "样本效率是真机落地关键瓶颈，值得在自有任务上试。",
+      "projectStatus": { "paper": "已发布", "code": "未知", "weights": "未知", "dataset": "未知", "benchmark": "作者自报" },
+      "evidenceLevel": "C 级：论文，作者自报", "links": ["https://arxiv.org/abs/2605.25477"]
+    },
+
+    {
+      "id": "a2world", "title": "A2World", "date": "2026-06-28",
+      "track": ["World Model"], "domain": "多视角交互扩散世界模型", "status": "最新",
+      "oneLiner": "预训练多视角交互扩散世界模型，同一权重可适配为仿真器或策略（ECCV 2026）。",
+      "innovation": ["同一预训练权重直接适配 sim 或 policy 双用途", "多视角交互扩散，学习真实动作标签下的视觉动力学", "预训练→双用途迁移，减少标注"],
+      "method": "用真实动作标签预训练多视角扩散世界模型，初始权重直接适配两类下游任务。",
+      "ctoTake": "「一模两用」降低重复训练成本；有 ECCV 2026 同行评审，可信度较高。",
+      "projectStatus": { "paper": "已发布", "code": "未知", "weights": "未知", "dataset": "未知", "benchmark": "已报告" },
+      "evidenceLevel": "A- 级：ECCV 2026 接收，有同行评审", "links": ["https://arxiv.org/abs/2606.29501"]
+    },
+    {
+      "id": "vipsim", "title": "ViPSim", "date": "2026-06-27",
+      "track": ["World Model"], "domain": "长时域一致世界模型", "status": "最新",
+      "oneLiner": "融合视觉空间(像素对齐位姿/深度) + 参数空间(动作序列+相机矩阵)，消除长时域漂移（RSS 2026）。",
+      "innovation": ["双空间协作解决表征鸿沟", "骨干无关，可即插用到现有视频生成模型", "无监督涌现复杂交互(如布料折叠)"],
+      "method": "向世界模型注入像素对齐末端位姿与相机矩阵双重约束，保证长时域一致性。",
+      "ctoTake": "长时域漂移是视频世界模型通病，骨干无关方案实用价值高；有 RSS 2026 评审。",
+      "projectStatus": { "paper": "已发布", "code": "可迁移", "weights": "未知", "dataset": "未知", "benchmark": "已报告" },
+      "evidenceLevel": "A- 级：RSS 2026 接收，有同行评审", "links": ["https://arxiv.org/abs/2606.28804"]
+    },
+    {
+      "id": "physisforcing", "title": "PhysisForcing", "date": "2026-06-26",
+      "track": ["World Model"], "domain": "物理一致性视频世界模型", "status": "最新",
+      "oneLiner": "像素轨迹对齐 + 语义关系对齐双层损失，下游闭环操控成功率 16%→24%。",
+      "innovation": ["双层物理约束：像素轨迹(运动连续) + 语义关系(交互合理)", "闭环成功率 +50%", "可插拔，适配 Wan2.2 / Cosmos3"],
+      "method": "向视频生成模型添加双层监督，迫使世界模型生成物理可信的机器人-物体交互视频。",
+      "ctoTake": "代码已公开，且直接用闭环成功率说话，比纯视觉指标更可信。",
+      "projectStatus": { "paper": "已发布", "code": "已发布", "weights": "未知", "dataset": "未知", "benchmark": "作者自报" },
+      "evidenceLevel": "B 级：论文 + GitHub + 项目页", "links": ["https://arxiv.org/abs/2606.28128"]
+    },
+    {
+      "id": "wvm", "title": "World Value Models", "date": "2026-06-23",
+      "track": ["World Model"], "domain": "世界模型 + 价值估计", "status": "最新",
+      "oneLiner": "把世界模型的时序建模能力迁移到价值估计，用于数据质量评估与策略学习。",
+      "innovation": ["世界模型特征替代 VLM 特征做价值估计", "新基准 Suboptimal-Value-Bench(800 轨迹+人工标注)", "跨多种策略提取方法均提升操控"],
+      "method": "用世界模型的视频预测特征代替 VLM 特征，更好建模任务进度与数据质量。",
+      "ctoTake": "把 WM 用作「数据/进度评估器」是被低估的实用方向。",
+      "projectStatus": { "paper": "已发布", "code": "未知", "weights": "未知", "dataset": "已发布", "benchmark": "作者自报" },
+      "evidenceLevel": "C 级：论文 + 新基准，作者自报", "links": ["https://arxiv.org/abs/2606.24742"]
+    },
+    {
+      "id": "qwen-robotworld", "title": "Qwen-RobotWorld", "date": "2026-06-17",
+      "track": ["World Model"], "domain": "语言条件视频世界模型", "status": "最新",
+      "oneLiner": "60 层 MMDiT + 860 万视频-文本语料，统一操控/驾驶/导航多具身，EWMBench 第一。",
+      "innovation": ["Double-stream MMDiT：语言流(冻结) + 视频潜变量流逐层融合", "8.6M 跨本体语料(20+本体, 500+动作类别)", "两阶段课程：通用视觉先验→具身微调"],
+      "method": "基于 Qwen 的双流 MMDiT 扩散架构，语言条件生成未来机器人视频，统一多具身世界建模。",
+      "ctoTake": "Qwen 具身生态的世界模型底座，基准排名可查；注意是生成质量基准，非真机闭环。",
+      "projectStatus": { "paper": "已发布", "code": "未知", "weights": "未知", "dataset": "部分发布", "benchmark": "作者自报" },
+      "evidenceLevel": "B 级：大团队 + 可查基准排名", "links": ["https://arxiv.org/abs/2606.17030"]
+    },
+    {
+      "id": "kairos", "title": "Kairos", "date": "2026-06-16",
+      "track": ["World Model"], "domain": "物理 AI 世界模型栈", "status": "最新",
+      "oneLiner": "混合线性时序注意力架构，数学保证长时域误差不积累。",
+      "innovation": ["三种窗口尺度(滑窗+空洞+门控线性)捕获多粒度时间依赖", "数学定理证明误差不积累", "跨本体数据课程渐进预训练"],
+      "method": "Hybrid Linear Temporal Attention 保持全局持久记忆，数学保证状态传播精度。",
+      "ctoTake": "少见地给长时域稳定性提供理论保证，值得技术深读。",
+      "projectStatus": { "paper": "已发布", "code": "未知", "weights": "未知", "dataset": "未知", "benchmark": "已报告" },
+      "evidenceLevel": "C 级：论文，作者自报", "links": ["https://arxiv.org/abs/2606.16533"]
+    },
+    {
+      "id": "counterfactual-wm", "title": "反事实可控性 / 自演进世界模型", "date": "2026-06-23",
+      "track": ["World Model"], "domain": "世界模型评估理论", "status": "最新",
+      "oneLiner": "提出「反事实可控性」为世界模型必要条件：必须能检验哪些变量可控、干预下哪些未来成立。",
+      "innovation": ["反事实可控性作为评估新维度，超越视觉质量", "自演进世界模型框架，持续从交互更新", "为「是否真懂因果」提供理论基础"],
+      "method": "定义反事实可控性标准，设计能测试自身可控变量的自主视频生成框架。",
+      "ctoTake": "立场/理论论文，但提出的评估标准对判断「真世界模型 vs 漂亮视频」很关键。",
+      "projectStatus": { "paper": "已发布", "code": "未知", "weights": "未知", "dataset": "未知", "benchmark": "不适用" },
+      "evidenceLevel": "C 级：理论/立场论文", "links": ["https://arxiv.org/abs/2606.24152"]
+    },
+
+    {
+      "id": "wam-survey", "title": "WAM 综述（World Action Models）", "date": "2026-05-12",
+      "track": ["WAM"], "domain": "WAM 综述 / 分类体系", "status": "奠基",
+      "oneLiner": "首篇 WAM 系统综述，形式化定义 WAM 为联合预测未来状态与动作的具身基础模型范式。",
+      "innovation": ["正式定义 WAM，区分 Cascaded vs Joint WAM", "梳理 VLA 与世界模型融合的演化路径", "提出三维评估：视觉保真/物理可信/动作常识"],
+      "method": "综述论文，将 WAM 定义为建模未来状态与动作联合分布的具身基础模型并统一分类。",
+      "ctoTake": "建网站分类体系的权威参照，world_model_role 字段应对齐它。",
+      "projectStatus": { "paper": "已发布", "code": "不适用", "weights": "不适用", "dataset": "不适用", "benchmark": "不适用" },
+      "evidenceLevel": "B 级：综述，14 位作者", "links": ["https://arxiv.org/abs/2605.12090"]
+    },
+    {
+      "id": "mv-wam", "title": "MV-WAM", "date": "2026-06-19",
+      "track": ["WAM"], "domain": "多视角世界动作模型", "status": "最新",
+      "oneLiner": "流形感知跨模态因果掩码 + 价值增强，联合建模视觉预测/动作生成/价值估计，双臂 77.5% 成功率。",
+      "innovation": ["跨模态因果掩码把动作锚定到视频帧，解决流形不匹配", "进度-价值正则检测任务完成与对齐偏差", "价值引导回滚实现自主错误恢复"],
+      "method": "用流形感知优化对齐视觉-动作流形，价值估计提供任务进度信号引导动作回滚。",
+      "ctoTake": "自主错误恢复是真机实用能力，值得跟。",
+      "projectStatus": { "paper": "已发布", "code": "未知", "weights": "未知", "dataset": "未知", "benchmark": "作者自报" },
+      "evidenceLevel": "C 级：论文 + 真机，作者自报", "links": ["https://arxiv.org/abs/2606.21088"]
+    },
+    {
+      "id": "lawam", "title": "LaWAM", "date": "2026-06-14",
+      "track": ["WAM"], "domain": "潜空间世界动作模型", "status": "最新",
+      "oneLiner": "在视觉基础模型潜空间预测未来场景演化，相比像素空间 WAM 延迟降低 24 倍，LIBERO 98.6%。",
+      "innovation": ["潜变量世界模型：ViT 特征空间预测未来而非重建像素", "动作生成条件化于潜变量视觉子目标", "推理时延 187ms，达实用部署级"],
+      "method": "用潜变量视觉子目标代替像素视频预测作为动作条件，实现轻量级前瞻策略。",
+      "ctoTake": "「去视频化」WAM 代表作，低延迟数字明确，最贴近落地。",
+      "projectStatus": { "paper": "已发布", "code": "未知", "weights": "未知", "dataset": "未知", "benchmark": "作者自报" },
+      "evidenceLevel": "C 级：论文，数字明确，作者自报", "links": ["https://arxiv.org/abs/2606.15768"]
+    },
+    {
+      "id": "imagewam", "title": "ImageWAM", "date": "2026-06-17",
+      "track": ["WAM"], "domain": "图像编辑式 WAM", "status": "最新",
+      "oneLiner": "质疑 WAM 是否需要视频生成，用图像编辑替代视频预测，算力 1/6、延迟 1/4。",
+      "innovation": ["图像编辑先验更匹配动作预测的「状态差异」建模", "KV cache 从去噪过程引导 flow-matching 动作专家", "注意力分析证明关注动作相关变化区域"],
+      "method": "将视频 WAM 替换为预训练图像编辑模型，通过 KV cache 把编辑表征传给动作解码器。",
+      "ctoTake": "和 LaWAM 共同确立「WAM 不必生成视频」，效率路线必看。",
+      "projectStatus": { "paper": "已发布", "code": "未知", "weights": "未知", "dataset": "未知", "benchmark": "作者自报" },
+      "evidenceLevel": "C 级：论文，作者自报", "links": ["https://arxiv.org/abs/2606.19531"]
+    },
+    {
+      "id": "metis", "title": "Metis", "date": "2026-06-14",
+      "track": ["WAM"], "domain": "驾驶/导航世界动作模型", "status": "最新",
+      "oneLiner": "解耦视频生成与动作预测的混合专家 Transformer，推理跳过视频生成，自动驾驶导航 SOTA。",
+      "innovation": ["Mixture-of-Transformers：视频/动作独立专家，训练耦合推理解耦", "非对称注意力让动作模型看到视频中间特征但推理不生成视频", "NAVSIM/CityWalker SOTA + 真机部署"],
+      "method": "训练时学视频动力学，推理时仅运行动作分支，兼得两者优点。",
+      "ctoTake": "「训练时耦合、推理时解耦」是 WAM 工程化关键范式。",
+      "projectStatus": { "paper": "已发布", "code": "未知", "weights": "未知", "dataset": "未知", "benchmark": "作者自报" },
+      "evidenceLevel": "C 级：论文 + 真机部署，作者自报", "links": ["https://arxiv.org/abs/2606.15869"]
+    },
+    {
+      "id": "wam4d", "title": "WAM4D", "date": "2026-06-11",
+      "track": ["WAM"], "domain": "几何先验世界动作模型", "status": "最新",
+      "oneLiner": "轻量空间寄存器 token 把几何先验注入视频-动作 Transformer，推理时移除保持效率。",
+      "innovation": ["空间寄存器 token 作训练时深度先验读出点，推理零额外延迟", "因果混合注意力防跨模态信息泄漏", "RoboTwin 2.0 + 真机验证"],
+      "method": "训练时插入 4D 空间寄存器 token 迁移几何先验，推理时删除，低成本引入 3D 感知。",
+      "ctoTake": "训练注入/推理删除的技巧很务实；CC BY 4.0 开放。",
+      "projectStatus": { "paper": "已发布", "code": "开放许可", "weights": "未知", "dataset": "未知", "benchmark": "作者自报" },
+      "evidenceLevel": "C 级：论文(CC BY 4.0)，作者自报", "links": ["https://arxiv.org/abs/2606.14048"]
+    },
+    {
+      "id": "repwam", "title": "RepWAM", "date": "2026-06-13",
+      "track": ["WAM"], "domain": "表征式视觉-动作 tokenizer", "status": "最新",
+      "oneLiner": "用表征导向而非重建导向的视觉-动作 tokenizer，建立语义潜空间提升指令跟随。",
+      "innovation": ["表征 tokenizer：映射到对齐视觉-动作 token 而非像素重建", "联合建模未来视觉状态与潜变量动作", "计划公开代码与权重"],
+      "method": "放弃像素重建目标，改用表征对齐目标训练视觉-动作 tokenizer，提升语义一致性。",
+      "ctoTake": "tokenizer 是 WAM 上游瓶颈，表征对齐方向值得深读。",
+      "projectStatus": { "paper": "已发布", "code": "计划发布", "weights": "计划发布", "dataset": "未知", "benchmark": "作者自报" },
+      "evidenceLevel": "C 级：论文，代码/权重计划公开", "links": ["https://arxiv.org/abs/2606.13674"]
+    },
+    {
+      "id": "regen", "title": "REGEN（WAM + 持续学习）", "date": "2026-06-25",
+      "track": ["WAM"], "domain": "WAM 持续学习", "status": "最新",
+      "oneLiner": "用 WAM 生成伪重放轨迹，不保存原始演示即可持续学新任务而不遗忘，遗忘降低 50%。",
+      "innovation": ["WAM 作「记忆生成器」赋能持续学习", "递归生成伪重放：仅需任务指令+当前观测重建旧轨迹", "灾难性遗忘降 50%，接近存真实数据"],
+      "method": "训练时递归调用 WAM 生成旧任务伪轨迹，无需存储演示即实现持续模仿学习。",
+      "ctoTake": "把 WAM 当「记忆」用，是少见且实用的角度。",
+      "projectStatus": { "paper": "已发布", "code": "未知", "weights": "未知", "dataset": "未知", "benchmark": "作者自报" },
+      "evidenceLevel": "C 级：论文 + 仿真/真机，作者自报", "links": ["https://arxiv.org/abs/2606.27374"]
+    },
+    {
+      "id": "world-pilot", "title": "World Pilot", "date": "2026-06-10",
+      "track": ["WAM", "VLA"], "domain": "WAM 引导 VLA 泛化", "status": "最新",
+      "oneLiner": "用 WAM 提取潜变量引导信号，通过「潜变量转向」和「动作转向」增强 VLA 的 OOD 泛化。",
+      "innovation": ["潜变量转向：WAM 潜变量修正 VLA 内部表征", "动作转向：WAM 动作信号直接调制 VLA 输出", "即插即用，不重训 VLA"],
+      "method": "WAM 作为 VLA 的「副驾驶」，双路径转向提升分布外泛化。",
+      "ctoTake": "不重训就增强已有 VLA，落地成本低，值得在自有策略上试。",
+      "projectStatus": { "paper": "已发布", "code": "未知", "weights": "未知", "dataset": "未知", "benchmark": "作者自报" },
+      "evidenceLevel": "C 级：论文，作者自报", "links": ["https://arxiv.org/abs/2606.12403"]
+    },
+
+    {
+      "id": "futurenav", "title": "FutureNav", "date": "2026-06-29",
+      "track": ["VLN", "WAM"], "domain": "VLN + 世界动作建模", "status": "最新",
+      "oneLiner": "把世界-动作联合建模引入 VLN，4B 模型四目标联合优化显著超越先前方法。",
+      "innovation": ["VLN 首次联合建模动作策略 + 未来空间状态生成", "四目标：动作 + 逆/正动力学 + 未来状态生成", "4B 模型超越所有先前 VLN 基础模型"],
+      "method": "用世界动作模型架构重建 VLN，导航策略在预测动作的同时显式建模环境状态演化。",
+      "ctoTake": "VLN×WAM 的标志性融合工作，最值得跟的导航方向之一。",
+      "projectStatus": { "paper": "已发布", "code": "计划发布", "weights": "未知", "dataset": "未知", "benchmark": "作者自报" },
+      "evidenceLevel": "C 级：论文，代码计划公开", "links": ["https://arxiv.org/abs/2606.30367"]
+    },
+    {
+      "id": "localnav", "title": "LocalNav", "date": "2026-06-26",
+      "track": ["VLN"], "domain": "边缘导航 / 知识蒸馏", "status": "最新",
+      "oneLiner": "把前沿 VLM 的空间语义推理蒸馏到 4B 轻量模型，推理延迟降低 82.8%。",
+      "innovation": ["大模型→轻量 VLM 蒸馏保留空间推理", "结合具身 RL 强化蒸馏策略", "82.8% 延迟降幅，适配边缘部署"],
+      "method": "用前沿大 VLM 作教师蒸馏空间导航能力到 4B 学生模型，配合 RL 微调。",
+      "ctoTake": "延迟是导航落地硬指标，蒸馏路线务实。",
+      "projectStatus": { "paper": "已发布", "code": "未知", "weights": "未知", "dataset": "未知", "benchmark": "作者自报" },
+      "evidenceLevel": "C 级：论文，作者自报", "links": ["https://arxiv.org/abs/2606.27871"]
+    },
+    {
+      "id": "holoagent", "title": "HoloAgent-0", "date": "2026-06-22",
+      "track": ["VLN"], "domain": "具身 AgentOS / 长时规划", "status": "最新",
+      "oneLiner": "统一框架整合 3D 空间记忆、具身 AgentOS 与技能图，支持跨操控-导航-协调真机部署。",
+      "innovation": ["AgentOS 抽象统一管理感知/记忆/规划/执行", "3D 空间记忆支持长时域导航与操控", "技能图支持任务组合与长时规划"],
+      "method": "以 AgentOS 为核心，将 3D 空间记忆、长时规划与操控技能统一封装，面向真机部署。",
+      "ctoTake": "偏系统/架构工作，适合参考「具身 agent 操作系统」如何组织。",
+      "projectStatus": { "paper": "已发布", "code": "未知", "weights": "未知", "dataset": "未知", "benchmark": "已报告" },
+      "evidenceLevel": "C 级：论文 + 真机，作者自报", "links": ["https://arxiv.org/abs/2606.23565"]
+    },
+    {
+      "id": "flowdec", "title": "FlowDec", "date": "2026-06-23",
+      "track": ["VLN"], "domain": "VLN 视觉鲁棒性", "status": "最新",
+      "oneLiner": "时序条件化 flow 修复视觉失真，解决 VLN-CE 在真实视觉干扰下鲁棒性骤降（ECCV 2026）。",
+      "innovation": ["时序条件化流去噪保证修复视觉时序一致", "动作中心引导滤波动态选最优修复帧", "解决实际部署视觉鲁棒性痛点"],
+      "method": "在 VLN-CE 系统前插入基于 flow 的图像修复模块，用历史帧条件化恢复失真观测。",
+      "ctoTake": "面向真实部署的鲁棒性工作，有 ECCV 2026 评审。",
+      "projectStatus": { "paper": "已发布", "code": "未知", "weights": "未知", "dataset": "未知", "benchmark": "已报告" },
+      "evidenceLevel": "A- 级：ECCV 2026 接收", "links": ["https://arxiv.org/abs/2606.22424"]
+    },
+    {
+      "id": "spacevln", "title": "SpaceVLN", "date": "2026-06-08",
+      "track": ["VLN"], "domain": "零样本具身导航", "status": "最新",
+      "oneLiner": "分层空间认知记忆 + 任务引导推理，R2R-CE/RxR-CE/HM3D-OVON 零样本 SOTA 并真机部署。",
+      "innovation": ["类海马体分层空间记忆：探索区域抽象为路径点/地标", "统一处理 VLN 与 Object-Goal Navigation 无需专项训练", "真机部署 + 全面实验"],
+      "method": "构建分层空间记忆配合任务引导推理，实现零样本具身导航。",
+      "ctoTake": "零样本 + 真机 + 多基准，是 VLN 里证据相对扎实的一项。",
+      "projectStatus": { "paper": "已发布", "code": "未知", "weights": "未知", "dataset": "未知", "benchmark": "作者自报" },
+      "evidenceLevel": "B 级：多基准 SOTA + 真机，作者自报", "links": ["https://arxiv.org/abs/2606.08992"]
+    },
+    {
+      "id": "worldvln", "title": "WorldVLN", "date": "2026-05-15",
+      "track": ["VLN", "WAM"], "domain": "航拍 VLN 世界动作模型", "status": "最新",
+      "oneLiner": "把航拍 VLN 建模为世界-动作预测，自回归 WM 预测状态转移并解码路径点，真机无人机验证。",
+      "innovation": ["航拍 VLN 首个自回归世界动作模型", "Action-aware GRPO：针对自回归 WAM 的 RL 训练", "闭环：每步新观测重注入自回归上下文"],
+      "method": "用潜变量自回归视频骨干预测未来状态并解码路径点，配合 Action-aware GRPO 训练闭环航拍导航。",
+      "ctoTake": "WAM 思路迁移到无人机导航，+12% 成功率；适合空中场景参考。",
+      "projectStatus": { "paper": "已发布", "code": "未知", "weights": "未知", "dataset": "未知", "benchmark": "作者自报" },
+      "evidenceLevel": "C 级：论文 + 真机无人机，作者自报", "links": ["https://arxiv.org/abs/2605.15964"]
+    },
+    {
+      "id": "airgroundbench", "title": "AirGroundBench", "date": "2026-06-26",
+      "track": ["VLN"], "domain": "跨视角空间智能基准", "status": "基准",
+      "oneLiner": "6.2 万道双视角四选一 VQA，评测多模态模型在无人机-地面车协作中的空间智能。",
+      "innovation": ["UAV+UGV 异构协作的跨视角空间理解基准", "62000 双视角单选题系统评测 MLLM", "揭示跨视角对齐与变换推理缺陷"],
+      "method": "构建大规模双视角空间问答基准，系统诊断多模态模型空间智能边界。",
+      "ctoTake": "资源/基准层，适合用来客观衡量空间推理短板。",
+      "projectStatus": { "paper": "已发布", "code": "未知", "weights": "不适用", "dataset": "已发布", "benchmark": "已发布" },
+      "evidenceLevel": "B 级：公开基准(约 62K 题)", "links": ["https://arxiv.org/abs/2606.28049"]
+    },
+
+    {
+      "id": "icwm", "title": "ICWM（In-Context World Modeling）", "date": "2026-06-25",
+      "track": ["VLA", "World Model"], "domain": "上下文自适应 VLA / 系统辨识", "status": "最新",
+      "oneLiner": "把「系统辨识」建模为上下文适应问题：机器人通过自生成交互历史推断当前系统变量，无需参数更新即适应新相机视角/形态。",
+      "innovation": ["将系统变量作为上下文变量纳入 VLA 推理", "自生成任务无关交互历史作上下文，推理时零参数更新", "新相机视角下显著优于标准 VLA 基线"],
+      "method": "VLA 推理前先执行短暂自主探索收集系统交互历史，上下文窗口捕获「当前系统如何运作」，条件化动作生成。",
+      "ctoTake": "解决 VLA 最痛点之一：真机部署时相机偏移/形态不同导致失败。上下文适应是低标注成本的务实路径。",
+      "projectStatus": { "paper": "已发布", "code": "未知", "weights": "未知", "dataset": "未知", "benchmark": "作者自报" },
+      "evidenceLevel": "C 级：论文 + 仿真/真机，作者自报", "links": ["https://arxiv.org/abs/2606.26025"]
+    },
+    {
+      "id": "translation-bridging", "title": "Translation as Bridging Action", "date": "2026-06-26",
+      "track": ["VLA"], "domain": "人类→机器人操控技能迁移", "status": "最新",
+      "oneLiner": "用「头部相机帧内相对手腕平移」作人类与双臂夹爪机器人的公共动作空间，绕过 6DoF 姿态估计噪声，技能随人类数据量持续提升。",
+      "innovation": ["桥接动作表示：相对手腕平移消除手部姿态估计噪声", "π_0 风格 VLA 用交错 token + 注意力掩码处理跨形态动作缺失", "性能随人类数据量 scaling，直接整合廉价视频资源"],
+      "method": "构建 VLA，以头部相机坐标系内相对平移为公共动作空间，让模型同时处理人类与机器人两路动作 token。",
+      "ctoTake": "人类数据是最廉价的来源；找到公共动作空间是关键，这篇给了一个实际可行的方案。",
+      "projectStatus": { "paper": "已发布", "code": "未知", "weights": "未知", "dataset": "未知", "benchmark": "作者自报" },
+      "evidenceLevel": "C 级：论文 + 双臂真机验证，作者自报", "links": ["https://arxiv.org/abs/2606.28133"]
+    },
+    {
+      "id": "qwen-agentworld", "title": "Qwen-AgentWorld（35B-A3B）", "date": "2026-06-24",
+      "track": ["World Model", "WAM"], "domain": "语言世界模型 / 通用智能体规划", "status": "最新",
+      "oneLiner": "35B MoE 基础语言世界模型 + 专用版本（游戏/网络/工具/代码），在 agentic 环境仿真与规划上推进通用智能体边界。",
+      "innovation": ["35B-A3B MoE：高效大规模语言世界模型基座", "多专用版本：游戏/网络/工具/代码不同智能体场景", "探索语言 WM 如何扩展通用智能体推理与规划"],
+      "method": "基于 Qwen 语言骨干构建 agentic 环境仿真模型，学习预测动作→环境状态转移，配合专用版本覆盖多类任务。",
+      "ctoTake": "Qwen 具身生态扩展到通用 agent 方向；关注「语言 WM」与「视觉 WM」如何在导航/操控里协同。",
+      "projectStatus": { "paper": "已发布", "code": "未知", "weights": "未知", "dataset": "未知", "benchmark": "作者自报" },
+      "evidenceLevel": "C 级：论文，大团队，作者自报", "links": ["https://arxiv.org/abs/2606.24597"]
+    },
+    {
+      "id": "dreamforge-world", "title": "DreamForge-World 0.1", "date": "2026-06-29",
+      "track": ["World Model"], "domain": "低算力实时可控世界模型", "status": "最新",
+      "oneLiner": "基于 Wan2.1-1.3B 的低算力实时交互世界模型，残差动作通路实现可控，定位「边端部署」而非前沿规模。",
+      "innovation": ["LongLive 自回归视频栈 + 残差动作通路（Matrix-Game 家族）", "1.3B 参数实现实时交互，算力需求极低", "互补而非竞争前沿规模世界模型"],
+      "method": "在 Wan2.1-T2V-1.3B 基础上注入残差动作控制路径，以自回归视频方式推进可控世界状态。",
+      "ctoTake": "1.3B 实时控制 + 开放导向，边端/机器人实时 WM 的务实参考；注意仍是 preview 版本。",
+      "projectStatus": { "paper": "已发布（preview）", "code": "未知", "weights": "未知", "dataset": "未知", "benchmark": "不适用" },
+      "evidenceLevel": "D 级：preview 报告，无正式评测", "links": ["https://arxiv.org/abs/2606.30292"]
+    },
+    {
+      "id": "hallucination-wm", "title": "世界模型幻觉可预测可防范", "date": "2026-06-25",
+      "track": ["World Model"], "domain": "世界模型幻觉检测与缓解", "status": "最新",
+      "oneLiner": "证明世界模型幻觉集中于低覆盖状态-动作区域；提出轻量数据驱动方案同时检测幻觉并引导缓解。",
+      "innovation": ["幻觉归因假说：集中于训练数据低覆盖区域，可被预测", "数据驱动轻量信号：兼顾检测与缓解，无需重训生成模型", "为世界模型可信度提供理论 + 工程双路径"],
+      "method": "分析视频世界模型幻觉分布，用覆盖度信号识别高风险区域，配合数据驱动缓解策略。",
+      "ctoTake": "「幻觉可检测」比「减少幻觉」更务实——先知道在哪幻觉才能部署。关注代码是否公开。",
+      "projectStatus": { "paper": "已发布", "code": "未知", "weights": "未知", "dataset": "未知", "benchmark": "已报告" },
+      "evidenceLevel": "C 级：论文，作者自报", "links": ["https://arxiv.org/abs/2606.27326"]
+    },
+    {
+      "id": "learning-to-fold", "title": "Learning to Fold（ICRA 2026 比赛第 2）", "date": "2026-06-25",
+      "track": ["VLA"], "domain": "VLA + 自监督 RL / 布料操控", "status": "最新",
+      "oneLiner": "VLA 策略兼任价值函数，自监督 RL 循环改进布料折叠；ICRA 2026 LeHome 比赛 62 队仿真第 1、真机第 2。",
+      "innovation": ["策略即价值函数：同一网络预测动作 + 成功/进度/约束分数", "自监督 RL：无需额外标注，进度分数驱动探索", "比赛验证：62 队竞争，仿真冠军+真机亚军"],
+      "method": "在 VLA 输出头上并联自监督价值估计，用成功概率与任务进度分数构造 RL 奖励，无需人工奖励工程。",
+      "ctoTake": "「同一网络估值自己」的自监督 RL 简洁且有比赛背书；布料操控是长尾 + 高难度任务的好基准。",
+      "projectStatus": { "paper": "已发布（个人报告）", "code": "未知", "weights": "未知", "dataset": "未知", "benchmark": "已报告（比赛）" },
+      "evidenceLevel": "B- 级：ICRA 2026 比赛排名公开可查", "links": ["https://arxiv.org/abs/2606.27163"]
+    },
+    {
+      "id": "memobench", "title": "MemoBench", "date": "2026-06-25",
+      "track": ["World Model"], "domain": "世界模型动态遮挡记忆基准", "status": "基准",
+      "oneLiner": "专攻「目标离视野→场景动态变化→重现」的记忆一致性缺口，诊断世界模型在遮挡 + 动态变化下的记忆短板。",
+      "innovation": ["填补现有基准空白：目标在遮挡期间环境动态变化", "诊断性基准：定向检测遮挡+变化复合场景下的记忆一致性", "揭示主流视频生成模型系统性记忆缺陷"],
+      "method": "构建场景设计：物体暂时离开视野，期间环境发生变化，评测模型能否正确预测重现时的物体状态。",
+      "ctoTake": "诊断价值大于 benchmark 刷榜价值——用来找自有世界模型的记忆边界。",
+      "projectStatus": { "paper": "已发布", "code": "未知", "weights": "不适用", "dataset": "已发布", "benchmark": "已发布" },
+      "evidenceLevel": "B 级：公开基准，评测多主流模型", "links": ["https://arxiv.org/abs/2606.27537"]
+    }
+  ],
+  "methods": [
+    { "name": "潜空间 / 图像编辑式 WAM", "track": "WAM", "definition": "不生成像素视频，而在潜空间预测视觉子目标或用图像编辑建模状态差异。", "why": "大幅降低延迟与算力，最贴近实时机器人控制。", "examples": ["LaWAM", "ImageWAM"] },
+    { "name": "训练耦合 / 推理解耦 WAM", "track": "WAM", "definition": "训练时联合学视频动力学与动作，推理时只跑动作分支。", "why": "兼得世界建模的先验与轻量推理。", "examples": ["Metis", "WAM4D"] },
+    { "name": "Diffusion / Flow 动作专家", "track": "VLA", "definition": "用 DiT / flow-matching 生成连续动作或路径点。", "why": "动作更平滑，可统一操控与导航输出。", "examples": ["ZR-0", "Qwen-VLA", "OneVLA"] },
+    { "name": "动作 tokenization", "track": "VLA", "definition": "把连续动作离散化为高质量 token（codec/RVQ、表征对齐）。", "why": "动作表示是 VLA 的隐性瓶颈。", "examples": ["NAC", "RepWAM"] },
+    { "name": "语言条件视频世界模型", "track": "World Model", "definition": "用语言/动作条件化生成未来机器人视频。", "why": "连接指令、合成数据与多具身世界建模。", "examples": ["Qwen-RobotWorld", "A2World"] },
+    { "name": "物理一致性 / 评估约束", "track": "World Model", "definition": "用轨迹对齐、关系对齐、反事实可控性约束生成。", "why": "把世界模型从「好看」推向「物理正确+闭环可用」。", "examples": ["PhysisForcing", "ViPSim", "反事实可控性"] },
+    { "name": "VLN × 世界动作建模", "track": "VLN", "definition": "导航时显式预测未来状态并联合优化动作。", "why": "从反应式动作转向前瞻式规划。", "examples": ["FutureNav", "WorldVLN"] },
+    { "name": "分层空间记忆 / 蒸馏", "track": "VLN", "definition": "构建分层空间记忆，或把大模型空间推理蒸馏到轻量模型。", "why": "兼顾零样本泛化与边缘部署延迟。", "examples": ["SpaceVLN", "LocalNav"] }
+  ],
+  "trends": [
+    { "title": "WAM 成为独立活跃范式", "status": "accelerating", "confidence": "high", "summary": "5–6 月密集出现 WAM 专项工作并有首篇综述形式化定义，联合建模未来状态与动作已从概念变成主线。", "evidence": ["WAM 综述", "MV-WAM", "LaWAM", "WAM4D", "RepWAM", "Metis"], "risk": "定义与评测仍碎片化，Cascaded vs Joint WAM 口径不一。" },
+    { "title": "WAM 去视频化、追求低延迟", "status": "accelerating", "confidence": "medium-high", "summary": "ImageWAM 用图像编辑(算力 1/6)、LaWAM 用潜变量子目标(延迟 1/24)挑战「WAM 必须生成视频」。", "evidence": ["ImageWAM", "LaWAM", "Metis"], "risk": "多为作者自报数字，需真机闭环复现。" },
+    { "title": "VLN 与 WAM/VLA 融合", "status": "accelerating", "confidence": "medium-high", "summary": "FutureNav、WorldVLN、OneVLA 把导航纳入世界-动作联合建模或统一策略。", "evidence": ["FutureNav", "WorldVLN", "OneVLA", "Qwen-VLA"], "risk": "导航环境与基准差异大，跨工作不可比。" },
+    { "title": "跨本体统一模型生态化", "status": "mainstreaming", "confidence": "high", "summary": "Qwen 系形成 VLA/世界模型/导航统一生态；ZR-0、VLK、OneVLA 主打单模型多本体多任务。", "evidence": ["Qwen-VLA", "Qwen-RobotWorld", "ZR-0", "OneVLA"], "risk": "需分清真泛化与堆数据；多为作者自报。" },
+    { "title": "评估转向物理一致性与闭环", "status": "accelerating", "confidence": "high", "summary": "PhysisForcing、A2World、World Value Models、反事实可控性把评估从视觉质量推向物理正确与闭环可用。", "evidence": ["PhysisForcing", "A2World", "World Value Models", "反事实可控性"], "risk": "缺乏统一标准化基准，榜单仍可能制造虚假确定性。" },
+    { "title": "感知模态扩展（触觉/事件/神经形态）", "status": "emerging", "confidence": "medium", "summary": "SpikeVLA(SNN) 等把 VLA/WAM 感知从视觉+语言扩展到事件相机、神经形态低功耗方向。", "evidence": ["SpikeVLA"], "risk": "新模态工作少、复现弱，尚未形成共识。" }
+  ],
+  "comparison": [
+    { "track": "端到端 VLA", "input": "图像/视频 + 语言 + 机器人状态", "predicts": "机器人动作 / 路径点", "strength": "直接、通用、工程路径清晰", "weakness": "长程规划与 OOD 鲁棒性不足", "bestUse": "多任务机器人策略", "examples": "ZR-0, Qwen-VLA, OneVLA" },
+    { "track": "语言条件视频世界模型", "input": "图像/视频 + 语言/动作条件", "predicts": "未来视频", "strength": "直观、可生成合成数据与虚拟评估", "weakness": "物理一致性与可控性不稳定、算力大", "bestUse": "数据增强、虚拟评估", "examples": "Qwen-RobotWorld, A2World, PhysisForcing" },
+    { "track": "潜空间/图像编辑 WAM", "input": "观测 + 潜在动作", "predicts": "潜在未来特征 / 视觉子目标", "strength": "低延迟，贴近实时控制", "weakness": "可解释性弱、依赖好的视觉骨干", "bestUse": "实时前瞻控制", "examples": "LaWAM, ImageWAM" },
+    { "track": "联合世界动作模型 (Joint WAM)", "input": "观测 + 候选/潜在动作", "predicts": "未来状态 + 动作 + reward", "strength": "连接想象与动作、可自主纠错", "weakness": "定义与评测仍碎片化", "bestUse": "策略改进、规划、持续学习", "examples": "MV-WAM, Metis, REGEN" },
+    { "track": "VLN / 导航", "input": "语言 + 自我中心/场景观测 + 记忆", "predicts": "路径 / 动作 / 航点", "strength": "长程空间任务、可零样本", "weakness": "环境与基准差异大、视觉鲁棒性脆弱", "bestUse": "室内外导航、巡检、无人机", "examples": "SpaceVLN, FutureNav, WorldVLN" },
+    { "track": "WM 辅助 VLA 后训练 / 评估", "input": "真实数据 + 世界模型 + VLA 策略", "predicts": "改进后的策略 / 价值分数", "strength": "减少真实试错、可做数据/进度评估", "weakness": "世界模型偏差会污染策略", "bestUse": "后训练、OOD 鲁棒、数据筛选", "examples": "World Pilot, World Value Models" }
+  ],
+  "sources": [
+    "https://arxiv.org/abs/2605.12090",
+    "https://arxiv.org/abs/2606.30552",
+    "https://arxiv.org/abs/2606.30645",
+    "https://arxiv.org/abs/2606.30632",
+    "https://arxiv.org/abs/2606.30367",
+    "https://arxiv.org/abs/2606.29501",
+    "https://arxiv.org/abs/2606.28804",
+    "https://arxiv.org/abs/2606.28128",
+    "https://arxiv.org/abs/2606.27807",
+    "https://arxiv.org/abs/2606.27374",
+    "https://arxiv.org/abs/2606.24742",
+    "https://arxiv.org/abs/2606.24152",
+    "https://arxiv.org/abs/2606.21088",
+    "https://arxiv.org/abs/2606.19531",
+    "https://arxiv.org/abs/2606.17030",
+    "https://arxiv.org/abs/2606.16533",
+    "https://arxiv.org/abs/2606.15869",
+    "https://arxiv.org/abs/2606.15768",
+    "https://arxiv.org/abs/2606.14048",
+    "https://arxiv.org/abs/2606.13674",
+    "https://arxiv.org/abs/2606.12403",
+    "https://arxiv.org/abs/2606.08992",
+    "https://arxiv.org/abs/2606.01241",
+    "https://arxiv.org/abs/2605.30877",
+    "https://arxiv.org/abs/2605.30280",
+    "https://arxiv.org/abs/2605.25477",
+    "https://arxiv.org/abs/2605.15964",
+    "https://arxiv.org/abs/2606.28049",
+    "https://arxiv.org/abs/2606.26025",
+    "https://arxiv.org/abs/2606.28133",
+    "https://arxiv.org/abs/2606.24597",
+    "https://arxiv.org/abs/2606.30292",
+    "https://arxiv.org/abs/2606.27326",
+    "https://arxiv.org/abs/2606.27163",
+    "https://arxiv.org/abs/2606.27537"
+  ]
+};
+  </script>
+  <script>
+(function () {
+const state = { data: null, activeTrack: 'All', query: '', expanded: new Set() };
+
+const $ = (s) => document.querySelector(s);
+const $$ = (s) => Array.from(document.querySelectorAll(s));
+
+function escapeHtml(value) {
+  return String(value ?? '')
+    .replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;')
+    .replaceAll('"', '&quot;').replaceAll("'", '&#039;');
+}
+function slugClass(track) { return String(track).toLowerCase().replace(/\s+/g, '-'); }
+
+const TRACK_ZH = { 'VLA': 'VLA', 'World Model': '世界模型', 'WAM': 'WAM', 'VLN': 'VLN' };
+const trackLabel = (t) => TRACK_ZH[t] || t;
+
+const TREND_ZH = { accelerating: '加速中', emerging: '萌芽', mainstreaming: '主流化', cooling: '降温', uncertain: '不确定', 'medium-high': '中高', high: '高', medium: '中', low: '低' };
+const statusZh = (v) => TREND_ZH[v] || v;
+
+function statusClass(value = '') {
+  const v = String(value).toLowerCase();
+  if (v.includes('已发布') || v.includes('released') || v.includes('支持')) return 'status-good';
+  if (v.includes('部分') || v.includes('partial') || v.includes('作者自报') || v.includes('已报告') || v.includes('计划') || v.includes('看') || v.includes('研究') || v.includes('混合')) return 'status-warn';
+  if (v.includes('未发布') || v.includes('not')) return 'status-bad';
+  return 'status-neutral';
+}
+
+/* Parse "2026-06-15" / "2026-06" / "2024-06 → 2025-03" / "2026" into sortable number + display label. */
+function parseDate(raw) {
+  const s = String(raw || '').trim();
+  const matches = [...s.matchAll(/(\d{4})(?:[-/.](\d{1,2}))?(?:[-/.](\d{1,2}))?/g)];
+  if (!matches.length) return { sort: 0, label: s || '—', estimated: true };
+  const last = matches[matches.length - 1];
+  const y = +last[1], m = last[2] ? +last[2] : 0, d = last[3] ? +last[3] : 0;
+  const sort = y * 10000 + m * 100 + d;
+  let label = `${y}`;
+  if (m) label += `-${String(m).padStart(2, '0')}`;
+  if (d) label += `-${String(d).padStart(2, '0')}`;
+  const estimated = s.includes('估') || s.toLowerCase().includes('est');
+  return { sort, label, estimated };
+}
+
+function renderMeta() {
+  const { meta, works } = state.data;
+  const tracks = meta.tracks.map(trackLabel).join(' · ');
+  $('#hero-meta').innerHTML = [
+    `📅 更新于 ${meta.updated}`,
+    `🎯 ${meta.coverage}`,
+    `📌 收录 ${works.length} 项工作`,
+    `🧭 ${tracks}`
+  ].map(x => `<span class="meta-chip">${escapeHtml(x)}</span>`).join('');
+}
+
+function renderBriefs() {
+  $('#brief-grid').innerHTML = state.data.briefs.map(b => `
+    <article class="brief-card">
+      <div class="brief-icon">${escapeHtml(b.icon)}</div>
+      <h3>${escapeHtml(b.title)}</h3>
+      <p>${escapeHtml(b.body)}</p>
+      <div class="cto-take"><strong>CTO 判断：</strong>${escapeHtml(b.take)}</div>
+    </article>`).join('');
+}
+
+function workMatches(w) {
+  const trackOk = state.activeTrack === 'All' || (w.track || []).includes(state.activeTrack);
+  const text = [w.title, w.date, w.domain, w.status, w.oneLiner, w.method, w.ctoTake, w.evidenceLevel, ...(w.track || []), ...(w.innovation || [])].join(' ').toLowerCase();
+  const queryOk = !state.query || text.includes(state.query.toLowerCase());
+  return trackOk && queryOk;
+}
+
+function sortedWorks() {
+  return state.data.works
+    .map(w => ({ w, d: parseDate(w.date) }))
+    .sort((a, b) => b.d.sort - a.d.sort);
+}
+
+function renderRadar() {
+  const all = sortedWorks();
+  const visible = all.filter(({ w }) => workMatches(w));
+  $('#total-count').textContent = state.data.works.length;
+  $('#visible-count').textContent = visible.length;
+
+  if (!visible.length) {
+    $('#radar-rows').innerHTML = `<div class="empty-row">没有匹配结果，换个关键词或切回「全部」。</div>`;
+    return;
+  }
+
+  $('#radar-rows').innerHTML = visible.map(({ w, d }) => {
+    const open = state.expanded.has(w.id);
+    const tracks = (w.track || []).map(t => `<span class="tag ${slugClass(t)}">${escapeHtml(trackLabel(t))}</span>`).join('');
+    const code = w.projectStatus && w.projectStatus.code;
+    const statusPill = `<span class="status-pill ${statusClass(code)}">${escapeHtml(code || '—')}</span>`;
+    return `
+      <div class="radar-row" role="row" data-id="${escapeHtml(w.id)}" tabindex="0" aria-expanded="${open}">
+        <span class="radar-date">${escapeHtml(d.label)}${d.estimated ? ' <span class="est">估</span>' : ''}</span>
+        <span class="radar-title"><span class="chev">▶</span>${escapeHtml(w.title)}</span>
+        <span class="radar-track-cell">${tracks}</span>
+        <span class="radar-oneliner">${escapeHtml(w.oneLiner)}</span>
+        <span class="radar-status-cell">${statusPill}</span>
+      </div>
+      <div class="radar-detail">
+        <div class="radar-detail-inner">
+          <div class="detail-block">
+            <div class="label">创新点</div>
+            <ul class="innovation-list">${(w.innovation || []).map(i => `<li>${escapeHtml(i)}</li>`).join('')}</ul>
+          </div>
+          <div class="detail-block">
+            <div class="label">方法思路</div>
+            <p class="method-copy">${escapeHtml(w.method)}</p>
+          </div>
+          <div class="cto-take"><strong>CTO 判断：</strong>${escapeHtml(w.ctoTake)}</div>
+          <div class="detail-block">
+            <div class="label">证据等级 · ${escapeHtml(w.domain)}</div>
+            <p class="method-copy">${escapeHtml(w.evidenceLevel)}</p>
+          </div>
+          <div class="detail-links">
+            ${(w.links || []).map((l, i) => `<a href="${escapeHtml(l)}" target="_blank" rel="noreferrer">来源 ${i + 1} ↗</a>`).join('')}
+          </div>
+        </div>
+      </div>`;
+  }).join('');
+
+  $$('.radar-row').forEach(row => {
+    const toggle = () => {
+      const id = row.dataset.id;
+      if (state.expanded.has(id)) state.expanded.delete(id); else state.expanded.add(id);
+      renderRadar();
+    };
+    row.addEventListener('click', toggle);
+    row.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); } });
+  });
+}
+
+function renderMethods() {
+  $('#method-grid').innerHTML = state.data.methods.map(m => `
+    <article class="method-card" data-track="${escapeHtml(m.track)}">
+      <p class="section-kicker">${escapeHtml(trackLabel(m.track))}</p>
+      <h3>${escapeHtml(m.name)}</h3>
+      <p>${escapeHtml(m.definition)}</p>
+      <div class="cto-take"><strong>为何重要：</strong>${escapeHtml(m.why)}</div>
+      <div class="examples">代表工作：${escapeHtml(m.examples.join(' · '))}</div>
+    </article>`).join('');
+}
+
+function renderTracker() {
+  $('#tracker-body').innerHTML = sortedWorks().map(({ w }) => {
+    const ps = w.projectStatus || {};
+    const pill = (v) => `<span class="status-pill ${statusClass(v)}">${escapeHtml(v || '未知')}</span>`;
+    return `<tr>
+      <td><span class="work-name">${escapeHtml(w.title)}</span><br><span>${escapeHtml(w.domain)}</span></td>
+      <td>${(w.track || []).map(t => `<span class="tag ${slugClass(t)}">${escapeHtml(trackLabel(t))}</span>`).join(' ')}</td>
+      <td>${pill(ps.paper)}</td><td>${pill(ps.code)}</td><td>${pill(ps.weights)}</td>
+      <td>${pill(ps.dataset)}</td><td>${pill(ps.benchmark)}</td><td>${escapeHtml(w.evidenceLevel)}</td>
+    </tr>`;
+  }).join('');
+}
+
+function renderTrends() {
+  $('#trend-grid').innerHTML = state.data.trends.map(t => `
+    <article class="trend-card">
+      <div class="trend-meta">
+        <span class="status-pill ${t.status === 'uncertain' ? 'status-warn' : 'status-good'}">${escapeHtml(statusZh(t.status))}</span>
+        <span class="status-pill status-neutral">可信度：${escapeHtml(statusZh(t.confidence))}</span>
+      </div>
+      <h3>${escapeHtml(t.title)}</h3>
+      <p>${escapeHtml(t.summary)}</p>
+      <div class="evidence-line"><strong>证据：</strong>${escapeHtml(t.evidence.join(' · '))}</div>
+      <div class="risk-box"><strong>风险：</strong>${escapeHtml(t.risk)}</div>
+    </article>`).join('');
+}
+
+function renderMatrix() {
+  $('#matrix-body').innerHTML = state.data.comparison.map(r => `
+    <tr><td><span class="work-name">${escapeHtml(r.track)}</span></td>
+      <td>${escapeHtml(r.input)}</td><td>${escapeHtml(r.predicts)}</td>
+      <td>${escapeHtml(r.strength)}</td><td>${escapeHtml(r.weakness)}</td>
+      <td>${escapeHtml(r.bestUse)}</td><td>${escapeHtml(r.examples)}</td></tr>`).join('');
+}
+
+function renderSources() {
+  $('#source-grid').innerHTML = state.data.sources.map(u => `<a class="source-card" href="${escapeHtml(u)}" target="_blank" rel="noreferrer">${escapeHtml(u)}</a>`).join('');
+}
+
+function bindControls() {
+  $('#search-input').addEventListener('input', (e) => { state.query = e.target.value.trim(); renderRadar(); });
+  $$('.filter-chip').forEach(btn => btn.addEventListener('click', () => {
+    state.activeTrack = btn.dataset.track;
+    $$('.filter-chip').forEach(b => b.classList.toggle('active', b === btn));
+    renderRadar();
+  }));
+}
+
+function renderAll() {
+  renderMeta(); renderBriefs(); renderRadar(); renderMethods();
+  renderTracker(); renderTrends(); renderMatrix(); renderSources(); bindControls();
+}
+
+function boot() {
+  try { state.data = window.__RADAR_DATA__; renderAll(); }
+  catch (error) {
+    console.error(error);
+    document.body.insertAdjacentHTML('afterbegin', '<div style="padding:16px;background:#be123c;color:white">渲染失败：' + escapeHtml(error.message) + '</div>');
+  }
+}
+boot();
+})();
+
+  </script>
+</body>
+</html>
