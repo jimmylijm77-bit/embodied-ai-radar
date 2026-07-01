@@ -52,9 +52,17 @@ API：https://aihot.virxact.com/api/public/items
 永远保留：status=奠基 / evidenceLevel 含 A 级 / status=基准且数据集已公开。
 目标：清退后 works 总数保持在 28–35 条之间。如在范围内可不删。
 
-### Step 4 — 更新 briefs（可选）
-若发现明显新技术趋势（3篇以上论文指向同一方向），更新或新增对应 brief。
-删除对应论文均已清退的 brief。
+### Step 4 — 复核核心判断 briefs（每日轻量执行，非可选）
+briefs[] 字段：title(结论) / icon / body(证据) / take(行动判断) / since(最近核对日期 MM-DD)。
+对每条 brief 执行以下复核：
+1. 找出该 brief body 中点名的论文，检查它们在 works[] 中的存活情况：
+   - 若该方向本轮有【新增或仍在架】的相关论文 → 把 since 更新为该方向最新论文的 date 后 5 位（MM-DD），并在 body 里补/换最新代表作。
+   - 若该 brief 点名的论文【全部已清退】→ 删除该 brief。
+2. 计算 since 距今天数：
+   - 若 > 21 天且本轮无新证据支撑 → 在 title 末尾加「⚠️」标记为待复核（若已有则保留），并在汇报中列出，供 Jimmy 决定是否退场。
+   - 若重新获得新证据 → 去掉 ⚠️ 并刷新 since。
+3. 新趋势（≥3 篇本轮论文指向同一未被现有 brief 覆盖的方向）→ 新增 brief，since=今日 MM-DD。
+brief 总数保持 5–8 条。写入时 since 只存 MM-DD。
 
 ### Step 5 — 更新 meta
 meta.updated = 今日日期（YYYY-MM-DD）
@@ -93,8 +101,9 @@ done
 发送以下内容：
 1. 新增论文数量 + 标题列表（0条也报告）
 2. 清退论文数量 + 标题列表（0条也报告）
-3. 当前 works 总数 / briefs 总数
-4. 网站公网地址：https://jimmylijm77-bit.github.io/embodied-ai-radar/
+3. 核心判断复核结果：刷新了哪几条 brief 的 since / 新增或删除了哪条 / 哪几条被标 ⚠️ 待复核（超 21 天无新证据）
+4. 当前 works 总数 / briefs 总数
+5. 网站公网地址：https://jimmylijm77-bit.github.io/embodied-ai-radar/
 
 ## 注意事项
 - JSON 字符串值内不能出现裸 ASCII 双引号（0x22），引用文字用「」替代
