@@ -17,43 +17,50 @@
    "title": "WAM 已从概念变成活跃主线",
    "icon": "🧠",
    "body": "2026 年 5–6 月密集出现 WAM 专项工作（MV-WAM、LaWAM、WAM4D、RepWAM、ImageWAM、REGEN），并有首篇 WAM 综述（2605.12090）做形式化定义：联合建模未来状态与动作。",
-   "take": "把 world_model_role 设为一级字段；WAM 不再是 WM 的子标签，而是独立范式。"
+   "take": "把 world_model_role 设为一级字段；WAM 不再是 WM 的子标签，而是独立范式。",
+   "since": "06-19"
   },
   {
    "title": "WAM 正在「去视频化」",
    "icon": "⚡",
    "body": "ImageWAM 用图像编辑替代视频预测，算力降到 1/6、延迟降到 1/4；LaWAM 用潜变量子目标替代像素重建，延迟降低 24 倍。效率优先方向明确。",
-   "take": "要落地实时机器人，优先看 latent / image-edit 路线，而不是大视频生成。"
+   "take": "要落地实时机器人，优先看 latent / image-edit 路线，而不是大视频生成。",
+   "since": "06-17"
   },
   {
    "title": "VLN 正与 WAM 融合",
    "icon": "🧭",
    "body": "FutureNav 把世界-动作联合建模引入 VLN；WorldVLN 做航拍自回归 WAM；OneVLA/Qwen-VLA 用单模型统一导航+操控。VLN 从反应式动作转向显式状态预测。",
-   "take": "VLN 不再是独立孤岛，应与 WAM/VLA 放在同一张雷达上比较。"
+   "take": "VLN 不再是独立孤岛，应与 WAM/VLA 放在同一张雷达上比较。",
+   "since": "06-29"
   },
   {
    "title": "跨本体统一模型成热潮",
    "icon": "🤖",
    "body": "Qwen 系（Qwen-VLA / Qwen-RobotWorld / Qwen-RobotNav）形成统一生态；ZR-0、VLK、OneVLA 都以「单模型覆盖多本体/多任务」为核心卖点。",
-   "take": "大规模统一训练路线在成熟，但要分清是真泛化还是堆数据。"
+   "take": "大规模统一训练路线在成熟，但要分清是真泛化还是堆数据。",
+   "since": "06-29"
   },
   {
    "title": "评估战场转向物理一致性",
    "icon": "🧪",
    "body": "PhysisForcing、A2World、SC3-Eval、World Value Models、反事实可控性等集中攻物理可信度与闭环可用，而不只是视觉好看。多数仍是作者自报，需独立复现。",
-   "take": "可信度仍是护城河：benchmark 数字默认标注 author-reported。"
+   "take": "可信度仍是护城河：benchmark 数字默认标注 author-reported。",
+   "since": "06-26"
   },
   {
    "title": "世界模型幻觉研究成新方向",
    "icon": "🔮",
    "body": "Hallucination in World Models（2606.27326）指出幻觉集中于低覆盖状态-动作区域，提供可检测 + 可缓解的数据驱动方案；MemoBench 专攻动态遮挡场景下的记忆一致性缺口；ICWM 把「系统辨识」引入 VLA 的上下文适应。三类工作共同把「世界模型到底在幻觉哪里」变成可量化问题。",
-   "take": "幻觉检测工具链比幻觉本身更有生产价值——优先看检测/缓解方案是否开源。"
+   "take": "幻觉检测工具链比幻觉本身更有生产价值——优先看检测/缓解方案是否开源。",
+   "since": "06-30"
   },
   {
    "title": "人类→机器人技能迁移找到低成本路径",
    "icon": "🤲",
    "body": "Translation as Bridging Action 用「头部相机帧内相对手腕平移」作跨形态公共空间，绕过 6DoF 姿态估计噪声；Learning to Fold 在 ICRA 2026 折叠比赛（62 支队伍）摘银，用「策略即价值函数」自监督 RL 改进 VLA。两项均未依赖昂贵遥操作硬件。",
-   "take": "人类视频→机器人策略的数据管线正在成熟，关注哪条路径最省标注成本。"
+   "take": "人类视频→机器人策略的数据管线正在成熟，关注哪条路径最省标注成本。",
+   "since": "06-26"
   }
  ],
  "works": [

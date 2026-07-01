@@ -51,16 +51,26 @@ function renderMeta() {
   ].map(x => `<span class="meta-chip">${escapeHtml(x)}</span>`).join('');
 }
 
+const BRIEF_ACCENTS = ['vla', 'wm', 'wam', 'vln', 'amber', 'green', 'red'];
+
 function renderBriefs() {
   const el = $('#brief-count');
   if (el) el.textContent = state.data.briefs.length;
-  $('#brief-grid').innerHTML = state.data.briefs.map(b => `
-    <article class="brief-card">
-      <div class="brief-icon">${escapeHtml(b.icon)}</div>
-      <h3>${escapeHtml(b.title)}</h3>
-      <p>${escapeHtml(b.body)}</p>
-      <div class="cto-take"><strong>CTO 判断：</strong>${escapeHtml(b.take)}</div>
-    </article>`).join('');
+  $('#brief-grid').innerHTML = state.data.briefs.map((b, i) => {
+    const accent = BRIEF_ACCENTS[i % BRIEF_ACCENTS.length];
+    const since = b.since ? `<span class="brief-since" title="该结论最近核对日期">核对 ${escapeHtml(b.since)}</span>` : '';
+    return `
+    <article class="brief-card" style="--accent: var(--${accent}); --accent-soft: var(--${accent}-soft)">
+      <div class="brief-top">
+        <span class="brief-idx">${String(i + 1).padStart(2, '0')}</span>
+        <span class="brief-icon">${escapeHtml(b.icon)}</span>
+        ${since}
+      </div>
+      <h3 class="brief-claim">${escapeHtml(b.title)}</h3>
+      <p class="brief-evidence">${escapeHtml(b.body)}</p>
+      <div class="brief-action"><span class="brief-arrow">→</span>${escapeHtml(b.take)}</div>
+    </article>`;
+  }).join('');
 }
 
 function workMatches(w) {

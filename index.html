@@ -151,16 +151,33 @@ h1 {
 .count-pill { flex: 0 0 auto; background: var(--vla-soft); color: var(--vla); border-radius: 999px; padding: 7px 15px; font-weight: 700; font-size: 0.85rem; white-space: nowrap; }
 
 /* ---------- Brief cards ---------- */
-.brief-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+.brief-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
 .brief-card {
+  position: relative; display: flex; flex-direction: column;
   background: var(--surface); border: 1px solid var(--line);
-  border-radius: var(--r); padding: 22px;
-  box-shadow: var(--shadow-sm); transition: transform var(--t-fast), box-shadow var(--t-fast);
+  border-radius: var(--r); padding: 18px 20px 16px;
+  box-shadow: var(--shadow-sm); transition: transform var(--t-fast), box-shadow var(--t-fast), border-color var(--t-fast);
+  overflow: hidden;
 }
-.brief-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
-.brief-icon { width: 40px; height: 40px; display: grid; place-items: center; border-radius: 10px; font-size: 1.3rem; background: var(--vla-soft); margin-bottom: 14px; }
-.brief-card h3 { margin: 0 0 8px; font-size: 1.02rem; font-weight: 700; color: var(--ink); line-height: 1.35; }
-.brief-card p { margin: 0; color: var(--ink-soft); font-size: 0.9rem; }
+.brief-card::before {
+  content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; background: var(--accent);
+}
+.brief-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); border-color: var(--accent); }
+.brief-top { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
+.brief-idx { font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0.72rem; font-weight: 700; color: var(--accent); letter-spacing: 0.02em; }
+.brief-icon { font-size: 1rem; line-height: 1; }
+.brief-since { margin-left: auto; font-size: 0.68rem; color: var(--muted); background: var(--bg-sunk); padding: 2px 7px; border-radius: 20px; white-space: nowrap; }
+.brief-claim { margin: 0 0 8px; font-size: 1.06rem; font-weight: 750; color: var(--ink); line-height: 1.32; letter-spacing: -0.01em; }
+.brief-evidence {
+  margin: 0 0 12px; color: var(--muted); font-size: 0.82rem; line-height: 1.5;
+  display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
+}
+.brief-action {
+  margin-top: auto; display: flex; gap: 7px; align-items: baseline;
+  color: var(--ink); font-size: 0.88rem; font-weight: 600; line-height: 1.4;
+  background: var(--accent-soft); border-radius: var(--r-sm); padding: 10px 12px;
+}
+.brief-arrow { color: var(--accent); font-weight: 800; flex-shrink: 0; }
 .cto-take, .risk-box {
   margin-top: 14px; color: var(--ink-soft); background: var(--bg-sunk);
   border-radius: var(--r-sm); padding: 10px 13px; font-size: 0.85rem;
@@ -357,8 +374,8 @@ tbody tr:hover td { background: var(--bg-sunk); }
     <section id="brief" class="section">
       <div class="section-heading">
         <p class="section-kicker">核心判断</p>
-        <h2>先看<span id="brief-count"></span>条结论，再看细节</h2>
-        <p class="section-lead">这是判断系统，不是论文收藏夹——决定我们把注意力放在哪里。</p>
+        <h2><span id="brief-count"></span> 条结论，先扫判断再看细节</h2>
+        <p class="section-lead">这是判断系统，不是论文收藏夹——每条给出结论、支撑证据、以及「→ 我们该做什么」。角标为该结论最近核对日期。</p>
       </div>
       <div class="brief-grid" id="brief-grid"></div>
     </section>
@@ -511,43 +528,50 @@ window.__RADAR_DATA__ = {
    "title": "WAM 已从概念变成活跃主线",
    "icon": "🧠",
    "body": "2026 年 5–6 月密集出现 WAM 专项工作（MV-WAM、LaWAM、WAM4D、RepWAM、ImageWAM、REGEN），并有首篇 WAM 综述（2605.12090）做形式化定义：联合建模未来状态与动作。",
-   "take": "把 world_model_role 设为一级字段；WAM 不再是 WM 的子标签，而是独立范式。"
+   "take": "把 world_model_role 设为一级字段；WAM 不再是 WM 的子标签，而是独立范式。",
+   "since": "06-19"
   },
   {
    "title": "WAM 正在「去视频化」",
    "icon": "⚡",
    "body": "ImageWAM 用图像编辑替代视频预测，算力降到 1/6、延迟降到 1/4；LaWAM 用潜变量子目标替代像素重建，延迟降低 24 倍。效率优先方向明确。",
-   "take": "要落地实时机器人，优先看 latent / image-edit 路线，而不是大视频生成。"
+   "take": "要落地实时机器人，优先看 latent / image-edit 路线，而不是大视频生成。",
+   "since": "06-17"
   },
   {
    "title": "VLN 正与 WAM 融合",
    "icon": "🧭",
    "body": "FutureNav 把世界-动作联合建模引入 VLN；WorldVLN 做航拍自回归 WAM；OneVLA/Qwen-VLA 用单模型统一导航+操控。VLN 从反应式动作转向显式状态预测。",
-   "take": "VLN 不再是独立孤岛，应与 WAM/VLA 放在同一张雷达上比较。"
+   "take": "VLN 不再是独立孤岛，应与 WAM/VLA 放在同一张雷达上比较。",
+   "since": "06-29"
   },
   {
    "title": "跨本体统一模型成热潮",
    "icon": "🤖",
    "body": "Qwen 系（Qwen-VLA / Qwen-RobotWorld / Qwen-RobotNav）形成统一生态；ZR-0、VLK、OneVLA 都以「单模型覆盖多本体/多任务」为核心卖点。",
-   "take": "大规模统一训练路线在成熟，但要分清是真泛化还是堆数据。"
+   "take": "大规模统一训练路线在成熟，但要分清是真泛化还是堆数据。",
+   "since": "06-29"
   },
   {
    "title": "评估战场转向物理一致性",
    "icon": "🧪",
    "body": "PhysisForcing、A2World、SC3-Eval、World Value Models、反事实可控性等集中攻物理可信度与闭环可用，而不只是视觉好看。多数仍是作者自报，需独立复现。",
-   "take": "可信度仍是护城河：benchmark 数字默认标注 author-reported。"
+   "take": "可信度仍是护城河：benchmark 数字默认标注 author-reported。",
+   "since": "06-26"
   },
   {
    "title": "世界模型幻觉研究成新方向",
    "icon": "🔮",
    "body": "Hallucination in World Models（2606.27326）指出幻觉集中于低覆盖状态-动作区域，提供可检测 + 可缓解的数据驱动方案；MemoBench 专攻动态遮挡场景下的记忆一致性缺口；ICWM 把「系统辨识」引入 VLA 的上下文适应。三类工作共同把「世界模型到底在幻觉哪里」变成可量化问题。",
-   "take": "幻觉检测工具链比幻觉本身更有生产价值——优先看检测/缓解方案是否开源。"
+   "take": "幻觉检测工具链比幻觉本身更有生产价值——优先看检测/缓解方案是否开源。",
+   "since": "06-30"
   },
   {
    "title": "人类→机器人技能迁移找到低成本路径",
    "icon": "🤲",
    "body": "Translation as Bridging Action 用「头部相机帧内相对手腕平移」作跨形态公共空间，绕过 6DoF 姿态估计噪声；Learning to Fold 在 ICRA 2026 折叠比赛（62 支队伍）摘银，用「策略即价值函数」自监督 RL 改进 VLA。两项均未依赖昂贵遥操作硬件。",
-   "take": "人类视频→机器人策略的数据管线正在成熟，关注哪条路径最省标注成本。"
+   "take": "人类视频→机器人策略的数据管线正在成熟，关注哪条路径最省标注成本。",
+   "since": "06-26"
   }
  ],
  "works": [
@@ -1854,16 +1878,26 @@ function renderMeta() {
   ].map(x => `<span class="meta-chip">${escapeHtml(x)}</span>`).join('');
 }
 
+const BRIEF_ACCENTS = ['vla', 'wm', 'wam', 'vln', 'amber', 'green', 'red'];
+
 function renderBriefs() {
   const el = $('#brief-count');
   if (el) el.textContent = state.data.briefs.length;
-  $('#brief-grid').innerHTML = state.data.briefs.map(b => `
-    <article class="brief-card">
-      <div class="brief-icon">${escapeHtml(b.icon)}</div>
-      <h3>${escapeHtml(b.title)}</h3>
-      <p>${escapeHtml(b.body)}</p>
-      <div class="cto-take"><strong>CTO 判断：</strong>${escapeHtml(b.take)}</div>
-    </article>`).join('');
+  $('#brief-grid').innerHTML = state.data.briefs.map((b, i) => {
+    const accent = BRIEF_ACCENTS[i % BRIEF_ACCENTS.length];
+    const since = b.since ? `<span class="brief-since" title="该结论最近核对日期">核对 ${escapeHtml(b.since)}</span>` : '';
+    return `
+    <article class="brief-card" style="--accent: var(--${accent}); --accent-soft: var(--${accent}-soft)">
+      <div class="brief-top">
+        <span class="brief-idx">${String(i + 1).padStart(2, '0')}</span>
+        <span class="brief-icon">${escapeHtml(b.icon)}</span>
+        ${since}
+      </div>
+      <h3 class="brief-claim">${escapeHtml(b.title)}</h3>
+      <p class="brief-evidence">${escapeHtml(b.body)}</p>
+      <div class="brief-action"><span class="brief-arrow">→</span>${escapeHtml(b.take)}</div>
+    </article>`;
+  }).join('');
 }
 
 function workMatches(w) {
